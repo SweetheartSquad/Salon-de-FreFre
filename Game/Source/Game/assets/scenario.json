@@ -1,3 +1,14 @@
 {
-  "assets": []
+  "assets": [
+  	{
+  		"id": "chair",
+  		"type": "mesh",
+  		"src": "chair.obj"
+  	},
+  	{
+  		"id": "chair",
+  		"type": "texture",
+  		"src": "chair.png"
+  	}
+  ]
 }
