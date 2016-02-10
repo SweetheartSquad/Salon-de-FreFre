@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MY_Game.cpp" />
+    <ClCompile Include="src\MY_MakeupArtist.cpp" />
     <ClCompile Include="src\MY_ResourceManager.cpp" />
     <ClCompile Include="src\MY_Scene_Base.cpp" />
     <ClCompile Include="src\MY_Scene_Box2D.cpp" />
@@ -23,9 +24,11 @@
     <ClCompile Include="src\MY_Scene_SurfaceShaders.cpp" />
     <ClCompile Include="src\MY_Scene_VR.cpp" />
     <ClCompile Include="src\ShaderComponentCircularMask.cpp" />
+    <ClCompile Include="src\MY_SelectionTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\MY_Game.h" />
+    <ClInclude Include="include\MY_MakeupArtist.h" />
     <ClInclude Include="include\MY_ResourceManager.h" />
     <ClInclude Include="include\MY_Scene_Base.h" />
     <ClInclude Include="include\MY_Scene_Box2D.h" />
@@ -36,6 +39,7 @@
     <ClInclude Include="include\MY_Scene_SurfaceShaders.h" />
     <ClInclude Include="include\MY_Scene_VR.h" />
     <ClInclude Include="include\ShaderComponentCircularMask.h" />
+    <ClInclude Include="include\MY_SelectionTarget.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,8 @@
 
 #include <MY_Scene_Base.h>
 #include "ShaderComponentCircularMask.h"
-
+#include <MY_SelectionTarget.h>
+#include <MY_MakeupArtist.h>
 class StereoCamera;
 
 class MY_Scene_Main : public MY_Scene_Base{
@@ -24,8 +25,7 @@ public:
 	ShaderComponentCircularMask * maskComponentIndicator;
 
 	StereoCamera * vrCam;
-	// whether we are paused and waiting for user input in order to proceed
-	bool waitingForInput;
+	MY_MakeupArtist * artist;
 
 	MY_Scene_Main(Game * _game);
 
@@ -37,10 +37,12 @@ public:
 	// overriden to remove physics debug drawing
 	virtual void disableDebug() override;
 
-
+	
+	// whether we are paused and waiting for user input in order to proceed
+	bool waitingForInput;
 	// updates currentHoverTarget based on raycasting
 	void updateHoverTarget(Step * _step);
-	NodeBulletBody * currentHoverTarget;
+	MY_SelectionTarget * currentHoverTarget;
 	// length of time the currenHoverTarget has been hovered
 	float hoverTime;
 	// length of time a target must be hovered before it is chosen as a selection

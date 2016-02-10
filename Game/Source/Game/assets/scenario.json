@@ -1,6 +1,13 @@
 {
   "assets": [
   	{
+  		"id": "palette",
+  		"type": "mesh",
+  		"src": "palette.obj"
+  	},
+
+
+  	{
   		"id": "chair",
   		"type": "mesh",
   		"src": "chair.obj"
@@ -10,6 +17,20 @@
   		"type": "texture",
   		"src": "chair.png"
   	},
+
+  	// ARTIST
+  	{
+  		"id": "artist",
+  		"type": "mesh",
+  		"src": "chair.obj"
+  	},
+  	{
+  		"id": "artst",
+  		"type": "texture",
+  		"src": "chair.png"
+  	},
+
+  	// AUDIO TRACKS
   	{
   		"id": "indicator",
   		"type": "texture",
@@ -19,6 +40,14 @@
   		"id": "track1",
   		"type": "audio",
   		"src": "Audio recording 2016-02-09 16-43-39.ogg",
+  		"positional": true,
+  		"stream": true,
+  		"category": "voice"
+  	},
+  	{
+  		"id": "track2",
+  		"type": "audio",
+  		"src": "Audio recording 2016-02-10 12-58-35.ogg",
   		"positional": true,
   		"stream": true,
   		"category": "voice"
