@@ -27,6 +27,8 @@ public:
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
 
+	UILayer uiLayer;
+
 	MY_Scene_Main(Game * _game);
 
 	virtual void render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions) override;

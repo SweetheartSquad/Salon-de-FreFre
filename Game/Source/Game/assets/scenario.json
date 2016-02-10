@@ -30,12 +30,18 @@
   		"src": "chair.png"
   	},
 
-  	// AUDIO TRACKS
+  	// UI
   	{
-  		"id": "indicator",
+		"id": "crosshair",
+  		"type": "texture",
+  		"src": "crosshair.png"
+  	},
+  	{
+		"id": "indicator",
   		"type": "texture",
   		"src": "indicator.png"
   	},
+  	// AUDIO TRACKS
   	{
   		"id": "track1",
   		"type": "audio",

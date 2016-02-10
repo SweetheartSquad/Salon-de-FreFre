@@ -9,13 +9,13 @@
 #include <ShaderComponentCircularMask.h>
 #include <shader/ShaderComponentTexture.h>
 #include <Resource.h>
+#include <VerticalLinearLayout.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
 	vrCam(new StereoCamera()),
 	indicatorShader(new ComponentShaderBase(true)),
 	maskComponentIndicator(nullptr),
-
 	currentHoverTarget(nullptr),
 	hoverTime(0),
 	targetHoverTime(1.5f),
@@ -25,7 +25,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	bulletDebugDrawer(new BulletDebugDrawer(bulletWorld->world)),
 
 	currentTrack(nullptr),
-	currentTrackId(0)
+	currentTrackId(0),
+	uiLayer(0, 0, 0, 0)
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -87,7 +88,26 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	getNextTrack();
 
 	Sprite * sprite = new Sprite(MY_ResourceManager::globalAssets->getTexture("indicator")->texture, indicatorShader);
-	childTransform->addChild(sprite)->scale(100);
+
+	auto sd = sweet::getWindowDimensions();
+	uiLayer.resize(0, sd.x, 0, sd.y);
+
+	VerticalLinearLayout * crosshairLayout = new VerticalLinearLayout(uiLayer.world);
+	crosshairLayout->setRationalWidth(1.0f, &uiLayer);
+	crosshairLayout->setRationalHeight(1.0f, &uiLayer);
+	crosshairLayout->horizontalAlignment = kCENTER;
+	crosshairLayout->verticalAlignment = kMIDDLE;
+
+	NodeUI * crossHair = new NodeUI(uiLayer.world);
+	crossHair->setWidth(15);
+	crossHair->setHeight(15);
+	crossHair->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("crosshair")->texture);
+
+	crosshairLayout->addChild(crossHair);
+
+	crossHair->childTransform->addChild(sprite)->scale(100)->translate(7.5f, 7.5f, 0.f);
+
+	uiLayer.addChild(crosshairLayout);
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
@@ -98,6 +118,8 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 	if(sweet::ovrInitialized){
 		vrCam->blitTo(0);
 	}
+
+	uiLayer.render(_matrixStack, _renderOptions);
 }
 
 void MY_Scene_Main::update(Step * _step){
@@ -139,6 +161,10 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the scene
 	MY_Scene_Base::update(_step);
+
+	auto sd = sweet::getWindowDimensions();
+	uiLayer.resize(0, sd.x, 0, sd.y);
+	uiLayer.update(_step);
 }
 
 
