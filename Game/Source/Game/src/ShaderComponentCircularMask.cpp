@@ -52,5 +52,7 @@ float ShaderComponentCircularMask::getRatio() const {
 }
 
 void ShaderComponentCircularMask::configureUniforms(sweet::MatrixStack* _matrixStack, RenderOptions* _renderOption, NodeRenderable* _nodeRenderable) {
-	glUniform1f(angleLoc, angle);
+	if(shader->isDirty()){
+		glUniform1f(angleLoc, angle);
+	}
 }
