@@ -9,6 +9,14 @@
   		"id": "chair",
   		"type": "texture",
   		"src": "chair.png"
+  	},
+  	{
+  		"id": "track1",
+  		"type": "audio",
+  		"src": "Audio recording 2016-02-09 16-43-39.ogg",
+  		"positional": true,
+  		"stream": true,
+  		"category": "voice"
   	}
   ]
 }
