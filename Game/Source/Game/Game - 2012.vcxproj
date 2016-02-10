@@ -24,6 +24,7 @@
     <ClCompile Include="src\MY_Scene_ScreenShaders.cpp" />
     <ClCompile Include="src\MY_Scene_SurfaceShaders.cpp" />
     <ClCompile Include="src\MY_Scene_VR.cpp" />
+    <ClCompile Include="src\ShaderComponentCircularMask.cpp" />
     <ClCompile Include="src\MY_SelectionTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +40,7 @@
     <ClInclude Include="include\MY_Scene_ScreenShaders.h" />
     <ClInclude Include="include\MY_Scene_SurfaceShaders.h" />
     <ClInclude Include="include\MY_Scene_VR.h" />
+    <ClInclude Include="include\ShaderComponentCircularMask.h" />
     <ClInclude Include="include\MY_SelectionTarget.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

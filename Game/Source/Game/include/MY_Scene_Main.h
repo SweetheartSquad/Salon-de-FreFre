@@ -1,6 +1,7 @@
 #pragma once
 
 #include <MY_Scene_Base.h>
+#include "ShaderComponentCircularMask.h"
 #include <MY_SelectionTarget.h>
 #include <MY_MakeupArtist.h>
 #include <MY_Palette.h>
@@ -22,7 +23,8 @@ public:
 	// increments currentTrackId and replaces the current track with the one located at the new ID
 	void getNextTrack();
 
-
+	ComponentShaderBase * indicatorShader; 
+	ShaderComponentCircularMask * maskComponentIndicator;
 
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
