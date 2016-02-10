@@ -5,6 +5,7 @@
 
 #include <StereoCamera.h>
 #include <CubeMap.h>
+#include <Resource.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
@@ -13,13 +14,20 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	currentHoverTarget(nullptr),
 	hoverTime(0),
 	targetHoverTime(1.5f),
+	waitingForInput(true),
 
-	bulletWorld(new BulletWorld(glm::vec3(0, -9.8, 0))), // we initialize the world's gravity here
+	bulletWorld(new BulletWorld(glm::vec3(0, -9.8, 0.1))), // we initialize the world's gravity here
 	bulletDebugDrawer(new BulletDebugDrawer(bulletWorld->world)),
 
 	currentTrack(nullptr),
 	currentTrackId(0)
 {
+	// Setup the debug drawer and add it to the scene
+	bulletWorld->world->setDebugDrawer(bulletDebugDrawer);
+	childTransform->addChild(bulletDebugDrawer, false);
+	bulletDebugDrawer->setDebugMode(btIDebugDraw::DBG_NoDebug);
+
+
 	MeshInterface * chairMesh = MY_ResourceManager::globalAssets->getMesh("chair")->meshes.at(0);
 	chairMesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("chair")->texture);
 	
@@ -27,17 +35,41 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	childTransform->addChild(chair);
 	
-	childTransform->addChild(vrCam);
+	childTransform->addChild(vrCam)->translate(0, 4, 0);
 	activeCamera = vrCam;
 	cameras.push_back(vrCam);
+	vrCam->yaw = -90;
 
-	CameraController * c = new CameraController(vrCam);
-	vrCam->childTransform->addChild(c, false);
+
+
+	/*MeshEntity * test = new MeshEntity(Resource::loadMeshFromObj("assets/meshes/buttman.obj", true).at(0), baseShader);
+	Texture * tex = new Texture("assets/textures/buttman.png", false, true, true);
+	tex->load();
+	test->mesh->pushTexture2D(tex);
+	childTransform->addChild(test)->translate(0, 3, 2)->rotate(90, 0, 1, 0, kOBJECT);*/
+	
+
+	
+	MY_SelectionTarget * palette = new MY_SelectionTarget(bulletWorld, MY_ResourceManager::globalAssets->getMesh("palette")->meshes.at(0), baseShader);
+	palette->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("palette")->texture);
+	childTransform->addChild(palette);
+	palette->setColliderAsBoundingBox();
+	//palette->setColliderAsSphere(5);
+	palette->createRigidBody(0);
+	palette->translatePhysical(glm::vec3(0, 3, 2));
+	palette->name = "test";
+	//palette->rotatePhysical(90, 0, 1, 0, kOBJECT);
+	
+
+	//CameraController * c = new CameraController(vrCam);
+	//vrCam->childTransform->addChild(c, false);
 
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
 	childTransform->addChild(cubemap);
 
+	// setup the artist
+	artist = new MY_MakeupArtist(baseShader);
 
 	// start the experience
 	getNextTrack();
@@ -57,11 +89,16 @@ void MY_Scene_Main::update(Step * _step){
 	if(waitingForInput){
 		updateHoverTarget(_step);
 
-		// check for selection
-		if(hoverTime >= targetHoverTime){
-			// make a selection and move on to the next track
-			// TODO
-			getNextTrack();
+		if(currentHoverTarget != nullptr){
+			std::stringstream ss;
+			ss << "Target: " << currentHoverTarget->name << ", Time: " << hoverTime << "/" << targetHoverTime;
+			Log::info(ss.str());
+			// check for selection
+			if(hoverTime >= targetHoverTime){
+				// make a selection and move on to the next track
+				// TODO
+				getNextTrack();
+			}
 		}
 	}else{
 		// update the active audio stream
@@ -69,10 +106,18 @@ void MY_Scene_Main::update(Step * _step){
 
 		// update the position of the active audio stream
 		// TODO
+
+		// if the audio stream has finished, switch to user input
+		if(currentTrack->source->state != AL_PLAYING){
+			waitingForInput = true;
+		}
 	}
 
 	// update the listener's position/orientation based on the camera
 	NodeOpenAL::setListener(vrCam, true);
+
+	// update the physics bodies
+	bulletWorld->update(_step);
 
 	// update the scene
 	MY_Scene_Base::update(_step);
@@ -93,43 +138,38 @@ void MY_Scene_Main::getNextTrack(){
 	
 	// add the new track to the scene and play it
 	childTransform->addChild(currentTrack, false);
-	currentTrack->play(true); // (shouldn't actually loop in the final, just for testing)
+	currentTrack->play(); // (shouldn't actually loop in the final, just for testing)
+
+	// reset the selection stuff
+	waitingForInput = false;
+	currentHoverTarget = nullptr;
+	hoverTime = 0;
 }
 
 
 void MY_Scene_Main::updateHoverTarget(Step * _step){
-	float range = 100;
-	glm::vec3 pos = activeCamera->childTransform->getWorldPos();
-	btVector3 start(pos.x, pos.y, pos.z);
-	btVector3 dir(activeCamera->forwardVectorRotated.x, activeCamera->forwardVectorRotated.y, activeCamera->forwardVectorRotated.z);
-	btVector3 end = start + dir*range;
-	btCollisionWorld::ClosestRayResultCallback RayCallback(start, end);
-	bulletWorld->world->rayTest(start, end, RayCallback);
-		
-		
-	NodeBulletBody * lastHoverTarget = currentHoverTarget;
-	
 	// if we're not looking at anything, cancel the current hover target
-	if(!RayCallback.hasHit()){
+	NodeBulletBody * me = bulletWorld->raycast(activeCamera, 5);
+	if(me == nullptr){
 		currentHoverTarget = nullptr;
 		return;
 	}
 
 	// if what we're looking at isn't a valid target, cancel the current hover target
-	NodeBulletBody * me = static_cast<NodeBulletBody *>(RayCallback.m_collisionObject->getUserPointer());
-	if(me != nullptr){
+	MY_SelectionTarget * potentialTarget = dynamic_cast<MY_SelectionTarget *>(me);
+	if(potentialTarget == nullptr){
 		currentHoverTarget = nullptr;
 		return;
 	}
 
 	// if we're looking at the same target as before, increment towards selection
-	if(currentHoverTarget == lastHoverTarget && lastHoverTarget != nullptr){
+	if(potentialTarget == currentHoverTarget && currentHoverTarget != nullptr){
 		hoverTime += _step->deltaTime;
 		return;
 	}
 
 	// if we're looking at a new target, restart
-	currentHoverTarget = me;
+	currentHoverTarget = potentialTarget;
 	hoverTime = 0;
 }
 
