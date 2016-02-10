@@ -5,10 +5,15 @@
 
 #include <StereoCamera.h>
 #include <CubeMap.h>
+#include <Sprite.h>
+#include <ShaderComponentCircularMask.h>
+#include <shader/ShaderComponentTexture.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
 	vrCam(new StereoCamera()),
+	indicatorShader(new ComponentShaderBase(true)),
+	maskComponentIndicator(nullptr),
 
 	currentHoverTarget(nullptr),
 	hoverTime(0),
@@ -20,6 +25,13 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	currentTrack(nullptr),
 	currentTrackId(0)
 {
+
+	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
+	indicatorShader->addComponent(new ShaderComponentTexture(indicatorShader));
+	maskComponentIndicator = new ShaderComponentCircularMask(indicatorShader, 0.1);
+	indicatorShader->addComponent(maskComponentIndicator);
+	indicatorShader->compileShader();
+
 	MeshInterface * chairMesh = MY_ResourceManager::globalAssets->getMesh("chair")->meshes.at(0);
 	chairMesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("chair")->texture);
 	
@@ -41,6 +53,9 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	// start the experience
 	getNextTrack();
+
+	Sprite * sprite = new Sprite(MY_ResourceManager::globalAssets->getTexture("indicator")->texture, indicatorShader);
+	childTransform->addChild(sprite)->scale(100);
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
@@ -54,6 +69,9 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 }
 
 void MY_Scene_Main::update(Step * _step){
+
+	maskComponentIndicator->setAngle(maskComponentIndicator->getRatio() + 0.0001f);
+
 	if(waitingForInput){
 		updateHoverTarget(_step);
 

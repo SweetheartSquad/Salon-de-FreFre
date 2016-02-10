@@ -16,6 +16,9 @@
 #include <NumberUtils.h>
 
 #include <RenderOptions.h>
+#include <ShaderComponentCircularMask.h>
+
+class ShaderComponentCircularMask;
 
 MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	Scene(_game),

@@ -11,6 +11,11 @@
   		"src": "chair.png"
   	},
   	{
+  		"id": "indicator",
+  		"type": "texture",
+  		"src": "indicator.png"
+  	},
+  	{
   		"id": "track1",
   		"type": "audio",
   		"src": "Audio recording 2016-02-09 16-43-39.ogg",

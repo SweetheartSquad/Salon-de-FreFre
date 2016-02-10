@@ -1,6 +1,7 @@
 #pragma once
 
 #include <MY_Scene_Base.h>
+#include "ShaderComponentCircularMask.h"
 
 class StereoCamera;
 
@@ -19,7 +20,8 @@ public:
 	// increments currentTrackId and replaces the current track with the one located at the new ID
 	void getNextTrack();
 
-
+	ComponentShaderBase * indicatorShader; 
+	ShaderComponentCircularMask * maskComponentIndicator;
 
 	StereoCamera * vrCam;
 	// whether we are paused and waiting for user input in order to proceed
