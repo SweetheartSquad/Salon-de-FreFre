@@ -3,6 +3,7 @@
 #include <MY_Scene_Base.h>
 #include <MY_SelectionTarget.h>
 #include <MY_MakeupArtist.h>
+#include <MY_Palette.h>
 
 class StereoCamera;
 
@@ -25,6 +26,7 @@ public:
 
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
+	MY_Palette * palette;
 
 	MY_Scene_Main(Game * _game);
 

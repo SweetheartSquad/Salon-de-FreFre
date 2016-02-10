@@ -1,12 +1,18 @@
 {
   "assets": [
+  	// PALETTE
   	{
   		"id": "palette",
   		"type": "mesh",
   		"src": "palette.obj"
   	},
+  	{
+  		"id": "palette",
+  		"type": "texture",
+  		"src": "palette.png"
+  	},
 
-
+  	// CHAIR
   	{
   		"id": "chair",
   		"type": "mesh",
@@ -21,13 +27,13 @@
   	// ARTIST
   	{
   		"id": "artist",
-  		"type": "mesh",
-  		"src": "chair.obj"
+  		"type": "mesh"/*,
+  		"src": "chair.obj"*/
   	},
   	{
   		"id": "artst",
-  		"type": "texture",
-  		"src": "chair.png"
+  		"type": "texture"/*,
+  		"src": "chair.png"*/
   	},
 
   	// AUDIO TRACKS
