@@ -7,7 +7,8 @@
 ShaderComponentCircularMask::ShaderComponentCircularMask(ComponentShaderBase* _shader, float _ratio) : 
 	ShaderComponent(_shader),
 	angle(0.f),
-	ratio(_ratio)
+	ratio(_ratio),
+	angleLoc(-1)
 {
 }
 
@@ -36,14 +37,15 @@ std::string ShaderComponentCircularMask::getOutColorMod() {
 	return "";
 }
 
-void ShaderComponentCircularMask::setAngle(float _ratio) {
+void ShaderComponentCircularMask::setRatio(float _ratio) {
 	ratio = _ratio;	
 	angle = _ratio * 360.f;
-	angle = fmod(angle, glm::radians(360.f));
-    if (angle < glm::radians(0.f)){
-        angle += glm::radians(360.f);
+	angle = fmod(angle, 360.f);
+    if (angle < 0.f){
+        angle += 360.f;
 	}
-	angle -= 3.141592653;
+	angle -= 180.f;
+	angle = glm::radians(angle);
 	makeDirty();
 }
 

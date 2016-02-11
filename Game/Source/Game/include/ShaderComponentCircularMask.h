@@ -14,7 +14,7 @@ public:
 	std::string getOutColorMod() override;
 	void configureUniforms(sweet::MatrixStack* _matrixStack, RenderOptions* _renderOption, NodeRenderable* _nodeRenderable) override;
 
-	void setAngle(float _angle);
+	void setRatio(float _ratio);
 	float getRatio() const;
 
 private:
