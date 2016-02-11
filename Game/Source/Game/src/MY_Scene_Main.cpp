@@ -12,18 +12,17 @@
 #include <VerticalLinearLayout.h>
 #include <MeshFactory.h>
 
+#define ROOM_WIDTH  50.f
+#define ROOM_DEPTH 50.f
+
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
-	vrCam(new StereoCamera()),
+	bulletWorld(new BulletWorld(glm::vec3(0, -9.8, 0.1))),
+	bulletDebugDrawer(new BulletDebugDrawer(bulletWorld->world)),
 	indicatorShader(new ComponentShaderBase(true)),
 	maskComponentIndicator(nullptr),
-	currentHoverTarget(nullptr),
-	hoverTime(0),
-	targetHoverTime(1.5f),
-	waitingForInput(true),
+	vrCam(new StereoCamera()),
 
-	bulletWorld(new BulletWorld(glm::vec3(0, -9.8, 0.1))), // we initialize the world's gravity here
-	bulletDebugDrawer(new BulletDebugDrawer(bulletWorld->world)),
 
 	currentTrack(nullptr),
 	currentTrackId(0),
@@ -31,7 +30,12 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
 	screenSurface(new RenderSurface(screenSurfaceShader)),
-	screenFBO(new StandardFrameBuffer(true))
+	screenFBO(new StandardFrameBuffer(true)),
+	
+	waitingForInput(true),
+	currentHoverTarget(nullptr),
+	hoverTime(0),
+	targetHoverTime(1.5f)
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -79,12 +83,28 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	palette->name = "test";*/
 	//palette->rotatePhysical(90, 0, 1, 0, kOBJECT);
 	
-
 	CameraController * c = new CameraController(vrCam);
 	vrCam->childTransform->addChild(c, false);
 
+	std::vector<glm::vec2> points;
+	std::string json = sweet::FileUtils::readFile("assets/path.json");
+	Json::Reader reader;
+	Json::Value path;
+	bool parsingSuccessful = reader.parse( json, path);
+	if(!parsingSuccessful){
+		Log::error("JSON parse failed: " + reader.getFormattedErrorMessages());
+	}else{		
+		glm::vec2 ratio = glm::vec2(ROOM_WIDTH/path["windowSize"][0].asFloat(), ROOM_DEPTH/path["windowSize"][1].asFloat());
+		for(auto point : path["points"]) {
+			// Reverse co-ordinates because player is facing down z axis
+			float x = ratio.y * point[1].asFloat();
+			float z = ratio.x * point[0].asFloat();
+			points.push_back(glm::vec2(x, z));	
+		}
+	}
+
 	// setup the artist
-	artist = new MY_MakeupArtist(baseShader);
+	artist = new MY_MakeupArtist(baseShader, points);
 	childTransform->addChild(artist);
 
 	palette = new MY_Palette(bulletWorld, baseShader);

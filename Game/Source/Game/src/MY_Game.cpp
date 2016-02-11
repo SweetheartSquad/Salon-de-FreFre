@@ -15,7 +15,7 @@
 
 
 MY_Game::MY_Game() :
-	Game("menu", new MY_Scene_Path(this), true) // initialize our game with a menu scene
+	Game("menu", new MY_Scene_Menu(this), true) // initialize our game with a menu scene
 {
 	// initialize all of our scenes in the game's scene map for later use
 	// only the current scene is updated/rendered by default, so these shouldn't affect performance
@@ -29,6 +29,7 @@ MY_Game::MY_Game() :
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	//scenes["vr"] = new MY_Scene_VR(this);
 	scenes["main"] = new MY_Scene_Main(this);
+	scenes["path"] = new MY_Scene_Path(this);
 }
 
 MY_Game::~MY_Game(){}

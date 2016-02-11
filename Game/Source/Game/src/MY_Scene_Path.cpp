@@ -7,6 +7,8 @@
 #include <MeshInterface.h>
 #include <RenderOptions.h>
 #include <Keyboard.h>
+#include <VerticalLinearLayout.h>
+#include <MY_ResourceManager.h>
 
 MY_Scene_Path::MY_Scene_Path(Game * _game):
 	Scene(_game),
@@ -20,6 +22,19 @@ MY_Scene_Path::MY_Scene_Path(Game * _game):
 
 	auto sd = sweet::getWindowDimensions();
 	uiLayer.resize(0, sd.x, 0, sd.y);
+
+	auto mainLayout = new VerticalLinearLayout(uiLayer.world);
+	mainLayout->setRationalHeight(1.0f, &uiLayer);
+	mainLayout->setRationalWidth(1.0f,  &uiLayer);
+	mainLayout->horizontalAlignment = kCENTER;
+	mainLayout->verticalAlignment   = kMIDDLE;
+	uiLayer.addChild(mainLayout);
+
+	auto direction = new NodeUI(uiLayer.world);
+	direction->setWidth(50.f);
+	direction->setHeight(50.f);
+	direction->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("direction")->texture);
+	mainLayout->addChild(direction);
 
 	positionInd = new NodeUI(uiLayer.world);
 	positionInd->setWidth(5);
@@ -67,11 +82,17 @@ void MY_Scene_Path::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 void MY_Scene_Path::exportJson(){
 	auto sd = sweet::getWindowDimensions();
 	std::stringstream json;
-	json << "{";
+	json << "{\n";
 	json << "\t\"windowSize\": [" << sd.x << ", " << sd.y << "],\n";
 	json << "\t\"points\" : [\n";
+	int idx = 0;
 	for(auto point : points) {
-		json << "\t\t[" << point.x << "," << point.y << "],\n";
+		if(idx == points.size() - 1) {
+			json << "\t\t[" << point.x - sd.x * 0.5f << "," << point.y - sd.y * 0.5f << "]\n";		
+		}else {
+			json << "\t\t[" << point.x - sd.x * 0.5f << "," << point.y - sd.y * 0.5f << "],\n";	
+		}
+		++idx;
 	}
 	json << "\t]\n";
 	json << "}";
