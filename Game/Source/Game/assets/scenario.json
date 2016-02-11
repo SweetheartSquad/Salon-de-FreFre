@@ -47,6 +47,11 @@
   		"type": "texture",
   		"src": "indicator.png"
   	},
+    {
+      "id": "direction",
+      "type": "texture",
+      "src": "direction.png"
+    },
   	// AUDIO TRACKS
   	{
   		"id": "track1",
