@@ -63,26 +63,33 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	
 
 	
-	MY_SelectionTarget * palette = new MY_SelectionTarget(bulletWorld, MY_ResourceManager::globalAssets->getMesh("palette")->meshes.at(0), baseShader);
+	/*MY_SelectionTarget * palette = new MY_SelectionTarget(bulletWorld, MY_ResourceManager::globalAssets->getMesh("palette")->meshes.at(0), baseShader);
 	palette->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("palette")->texture);
 	childTransform->addChild(palette);
 	palette->setColliderAsBoundingBox();
 	//palette->setColliderAsSphere(5);
 	palette->createRigidBody(0);
 	palette->translatePhysical(glm::vec3(0, 3, 2));
-	palette->name = "test";
+	palette->name = "test";*/
 	//palette->rotatePhysical(90, 0, 1, 0, kOBJECT);
 	
 
-	//CameraController * c = new CameraController(vrCam);
-	//vrCam->childTransform->addChild(c, false);
+	CameraController * c = new CameraController(vrCam);
+	vrCam->childTransform->addChild(c, false);
+
+	// setup the artist
+	artist = new MY_MakeupArtist(baseShader);
+	childTransform->addChild(artist);
+
+	palette = new MY_Palette(bulletWorld, baseShader);
+	childTransform->addChild(palette);
+	palette->translateComponents(glm::vec3(0, 3, 2));
+	
 
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
 	childTransform->addChild(cubemap);
 
-	// setup the artist
-	artist = new MY_MakeupArtist(baseShader);
 
 	// start the experience
 	getNextTrack();

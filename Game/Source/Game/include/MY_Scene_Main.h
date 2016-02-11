@@ -4,6 +4,8 @@
 #include "ShaderComponentCircularMask.h"
 #include <MY_SelectionTarget.h>
 #include <MY_MakeupArtist.h>
+#include <MY_Palette.h>
+
 class StereoCamera;
 
 class MY_Scene_Main : public MY_Scene_Base{
@@ -26,6 +28,7 @@ public:
 
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
+	MY_Palette * palette;
 
 	UILayer uiLayer;
 
