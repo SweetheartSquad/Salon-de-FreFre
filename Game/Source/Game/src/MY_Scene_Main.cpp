@@ -10,6 +10,7 @@
 #include <shader/ShaderComponentTexture.h>
 #include <Resource.h>
 #include <VerticalLinearLayout.h>
+#include <MeshFactory.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
@@ -26,7 +27,11 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	currentTrack(nullptr),
 	currentTrackId(0),
-	uiLayer(0, 0, 0, 0)
+	uiLayer(0, 0, 0, 0),
+
+	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
+	screenSurface(new RenderSurface(screenSurfaceShader)),
+	screenFBO(new StandardFrameBuffer(true))
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -52,6 +57,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	activeCamera = vrCam;
 	cameras.push_back(vrCam);
 	vrCam->yaw = -90;
+	vrCam->nearClip = 0.001f;
 
 
 
@@ -115,22 +121,79 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	crossHair->childTransform->addChild(sprite)->scale(100)->translate(7.5f, 7.5f, 0.f);
 
 	uiLayer.addChild(crosshairLayout);
+
+	
+	// setup mirror
+	mirrorCamera = new PerspectiveCamera();
+	childTransform->addChild(mirrorCamera);
+	cameras.push_back(mirrorCamera);
+	mirrorCamera->firstParent()->translate(0, 5, 5, false);
+
+	mirrorFBO = new StandardFrameBuffer(true);
+	mirrorTex = new FBOTexture(mirrorFBO, true, 0, true);
+	mirrorTex->load();
+	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), baseShader);
+	childTransform->addChild(mirrorSurface)->translate(0, 5, 5, false)->scale(glm::vec3(16,-9,1));
+	mirrorSurface->mesh->pushTexture2D(mirrorTex);
+
+
+	// memory management
+	++screenSurface->referenceCount;
+	++screenSurfaceShader->referenceCount;
+	++screenFBO->referenceCount;
+}
+
+MY_Scene_Main::~MY_Scene_Main(){
+	
+	// memory management
+	screenSurface->decrementAndDelete();
+	screenSurfaceShader->decrementAndDelete();
+	screenFBO->decrementAndDelete();
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
-	vrCam->renderStereo([this, _matrixStack, _renderOptions](){
+	// render the mirror texture
+	{
+		FrameBufferInterface::pushFbo(mirrorFBO);
+		Camera * c = activeCamera;
+
+		activeCamera = mirrorCamera;
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
+
+		activeCamera = c;
+		FrameBufferInterface::popFbo();
+	}
+
+	// render the scene
+	vrCam->renderStereo([this, _matrixStack, _renderOptions](){
+
+		
+		// keep our screen framebuffer up-to-date with the game's viewport
+		screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
+
+		// bind our screen framebuffer
+		FrameBufferInterface::pushFbo(screenFBO);
+		// render the scene
+		MY_Scene_Base::render(_matrixStack, _renderOptions);
+		// unbind our screen framebuffer, rebinding the previously bound framebuffer
+		// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
+		FrameBufferInterface::popFbo();
+
+		// render our screen framebuffer using the standard render surface
+		screenSurface->render(screenFBO->getTextureId());
+
+		// render the uiLayer after the screen surface in order to avoid hiding it through shader code
+		uiLayer.render(_matrixStack, _renderOptions);
 	});
 	// If an hmd is connected, we blit the stereo camera's buffers back to the screen after we're done rendering
 	if(sweet::ovrInitialized){
 		vrCam->blitTo(0);
 	}
 
-	uiLayer.render(_matrixStack, _renderOptions);
+	//uiLayer.render(_matrixStack, _renderOptions);
 }
 
 void MY_Scene_Main::update(Step * _step){
-
 	maskComponentIndicator->setAngle(maskComponentIndicator->getRatio() + 0.0001f);
 
 	if(waitingForInput){
@@ -172,6 +235,14 @@ void MY_Scene_Main::update(Step * _step){
 	auto sd = sweet::getWindowDimensions();
 	uiLayer.resize(0, sd.x, 0, sd.y);
 	uiLayer.update(_step);
+
+	// update the mirror
+	// (it's important to do this after the scene update, because we're overriding attributes which the camera typically handles on its own)
+	mirrorCamera->forwardVectorRotated = glm::reflect(activeCamera->forwardVectorRotated, glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
+	mirrorCamera->lookAtSpot = mirrorCamera->lookFromSpot + mirrorCamera->forwardVectorRotated;
+	// update the mirror texture
+	mirrorTex->refresh();
+	mirrorTex->bufferData();
 }
 
 

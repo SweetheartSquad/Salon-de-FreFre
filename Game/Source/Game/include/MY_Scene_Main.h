@@ -6,10 +6,20 @@
 #include <MY_MakeupArtist.h>
 #include <MY_Palette.h>
 
+#include <MY_Scene_ScreenShaders.h>
+#include <RenderSurface.h>
+#include <StandardFrameBuffer.h>
+#include <FBOTexture.h>
+
 class StereoCamera;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
+	Shader * screenSurfaceShader;
+	RenderSurface * screenSurface;
+	StandardFrameBuffer * screenFBO;
+
+
 	// The scene's physics world
 	BulletWorld * bulletWorld;
 	// used to draw wireframes showing physics colliders, transforms, etc
@@ -31,8 +41,9 @@ public:
 	MY_Palette * palette;
 
 	UILayer uiLayer;
-
+	
 	MY_Scene_Main(Game * _game);
+	~MY_Scene_Main();
 
 	virtual void render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions) override;
 	virtual void update(Step * _step) override;
@@ -52,4 +63,9 @@ public:
 	float hoverTime;
 	// length of time a target must be hovered before it is chosen as a selection
 	float targetHoverTime;
+	
+	PerspectiveCamera * mirrorCamera;
+	StandardFrameBuffer * mirrorFBO;
+	FBOTexture * mirrorTex;
+	MeshEntity * mirrorSurface;
 };
