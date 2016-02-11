@@ -32,7 +32,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenSurface(new RenderSurface(screenSurfaceShader)),
 	screenFBO(new StandardFrameBuffer(true)),
 	
-	waitingForInput(true),
+	waitingForInput(false),
 	currentHoverTarget(nullptr),
 	hoverTime(0),
 	targetHoverTime(1.5f)
@@ -270,7 +270,7 @@ void MY_Scene_Main::getNextTrack(){
 	// stop the old track and remove it from the scene
 	if(currentTrack != nullptr){
 		currentTrack->stop();
-		childTransform->removeChild(currentTrack);
+		artist->childTransform->removeChild(currentTrack);
 	}
 
 	++currentTrackId;
@@ -279,7 +279,7 @@ void MY_Scene_Main::getNextTrack(){
 	currentTrack = MY_ResourceManager::globalAssets->getAudio(ss.str())->sound;
 	
 	// add the new track to the scene and play it
-	childTransform->addChild(currentTrack, false);
+	artist->childTransform->addChild(currentTrack, false);
 	currentTrack->play(); // (shouldn't actually loop in the final, just for testing)
 
 	// reset the selection stuff
