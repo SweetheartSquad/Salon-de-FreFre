@@ -214,7 +214,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 }
 
 void MY_Scene_Main::update(Step * _step){
-	maskComponentIndicator->setAngle(maskComponentIndicator->getRatio() + 0.0001f);
+	maskComponentIndicator->setRatio(hoverTime/targetHoverTime);
 
 	if(waitingForInput){
 		updateHoverTarget(_step);
@@ -294,6 +294,7 @@ void MY_Scene_Main::updateHoverTarget(Step * _step){
 	NodeBulletBody * me = bulletWorld->raycast(activeCamera, 5);
 	if(me == nullptr){
 		currentHoverTarget = nullptr;
+		hoverTime = 0;
 		return;
 	}
 
@@ -301,6 +302,7 @@ void MY_Scene_Main::updateHoverTarget(Step * _step){
 	MY_SelectionTarget * potentialTarget = dynamic_cast<MY_SelectionTarget *>(me);
 	if(potentialTarget == nullptr){
 		currentHoverTarget = nullptr;
+		hoverTime = 0;
 		return;
 	}
 
