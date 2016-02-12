@@ -90,18 +90,90 @@
   	{
   		"id": "track1",
   		"type": "audio",
-  		"src": "Audio recording 2016-02-09 16-43-39.ogg",
+  		"src": "01 - hello - a.wav",
   		"positional": true,
   		"stream": true,
   		"category": "voice"
   	},
-  	{
-  		"id": "track2",
-  		"type": "audio",
-  		"src": "Audio recording 2016-02-10 12-58-35.ogg",
-  		"positional": true,
-  		"stream": true,
-  		"category": "voice"
-  	}
+    {
+      "id": "track2",
+      "type": "audio",
+      "src": "02 - we've got everything here - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track3",
+      "type": "audio",
+      "src": "03 - let's moisturize your skin - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track4",
+      "type": "audio",
+      "src": "04 - foundation - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track5",
+      "type": "audio",
+      "src": "05 - let me set - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track6",
+      "type": "audio",
+      "src": "06 - blush - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track7",
+      "type": "audio",
+      "src": "07 - beautiful eyes - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track8",
+      "type": "audio",
+      "src": "08 - eyeliner - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track9",
+      "type": "audio",
+      "src": "09 - mascara - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track10",
+      "type": "audio",
+      "src": "10 - lipstick - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track11",
+      "type": "audio",
+      "src": "11 - mirror - a.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    }
   ]
 }
