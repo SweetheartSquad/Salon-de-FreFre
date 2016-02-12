@@ -10,6 +10,8 @@
 #include <RenderSurface.h>
 #include <StandardFrameBuffer.h>
 #include <FBOTexture.h>
+#include <EventManager.h>
+#include <MY_Palette_Definition.h>
 
 class StereoCamera;
 
@@ -19,6 +21,7 @@ public:
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
 
+	sweet::EventManager eventManager;
 
 	// The scene's physics world
 	BulletWorld * bulletWorld;
@@ -31,14 +34,20 @@ public:
 	// currently playing audio track
 	OpenAL_Sound * currentTrack;
 	// increments currentTrackId and replaces the current track with the one located at the new ID
+	void loadNextPalette();
 	void getNextTrack();
+	void makeSelection();
 
 	ComponentShaderBase * indicatorShader; 
 	ShaderComponentCircularMask * maskComponentIndicator;
 
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
+
 	MY_Palette * palette;
+
+	int paletteDefIdx;
+	std::vector<MY_Palette_Definition *> paletteDefs;
 
 	UILayer uiLayer;
 	
@@ -63,9 +72,13 @@ public:
 	float hoverTime;
 	// length of time a target must be hovered before it is chosen as a selection
 	float targetHoverTime;
+
+	std::vector<Texture *> selections;
 	
 	PerspectiveCamera * mirrorCamera;
 	StandardFrameBuffer * mirrorFBO;
 	FBOTexture * mirrorTex;
 	MeshEntity * mirrorSurface;
+
+	MeshEntity * ryan;
 };

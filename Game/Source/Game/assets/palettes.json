@@ -1,0 +1,18 @@
+"palettes": [
+	{
+		"name": "Eye Shadow",
+		"texture": "eyeshadow"
+	},
+	{
+		"name": "Lipstick",
+		"texture": "lipstick"
+	}/*,
+	{
+		"name": "Mascara",
+		"texture": "mascara"
+	},
+	{
+		"name": "Blush",
+		"texture": "blush"
+	}*/
+]

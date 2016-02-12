@@ -32,10 +32,12 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenSurface(new RenderSurface(screenSurfaceShader)),
 	screenFBO(new StandardFrameBuffer(true)),
 	
+	paletteDefIdx(-1),
+	
 	waitingForInput(false),
 	currentHoverTarget(nullptr),
 	hoverTime(0),
-	targetHoverTime(1.5f)
+	targetHoverTime(1.f)
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -56,13 +58,16 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MeshEntity * chair = new MeshEntity(chairMesh, baseShader);
 
 	childTransform->addChild(chair);
-	
+
 	childTransform->addChild(vrCam)->translate(0, 4, 0);
 	activeCamera = vrCam;
 	cameras.push_back(vrCam);
 	vrCam->yaw = -90;
 	vrCam->nearClip = 0.001f;
 
+	ryan = new MeshEntity(MeshFactory::getPlaneMesh(2.f, 2.f), baseShader);
+	ryan->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("DEFAULT")->texture);
+	childTransform->addChild(ryan);
 
 
 	/*MeshEntity * test = new MeshEntity(Resource::loadMeshFromObj("assets/meshes/buttman.obj", true).at(0), baseShader);
@@ -110,7 +115,11 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	palette = new MY_Palette(bulletWorld, baseShader);
 	childTransform->addChild(palette);
 	palette->translateComponents(glm::vec3(0, 3, 2));
-	
+
+	paletteDefs.push_back(new MY_Palette_Definition("eyeshadow", MY_ResourceManager::globalAssets->getTexture("eyeshadow")->texture));
+	paletteDefs.push_back(new MY_Palette_Definition("lipstick", MY_ResourceManager::globalAssets->getTexture("lipstick")->texture));
+
+	loadNextPalette();
 
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
@@ -227,6 +236,7 @@ void MY_Scene_Main::update(Step * _step){
 			if(hoverTime >= targetHoverTime){
 				// make a selection and move on to the next track
 				// TODO
+				makeSelection();
 				getNextTrack();
 			}
 		}
@@ -263,6 +273,26 @@ void MY_Scene_Main::update(Step * _step){
 	// update the mirror texture
 	mirrorTex->refresh();
 	mirrorTex->bufferData();
+}
+
+void MY_Scene_Main::loadNextPalette(){
+	++paletteDefIdx;
+	if(paletteDefIdx < paletteDefs.size()){
+		palette->loadDefinition(paletteDefs.at(paletteDefIdx));
+	}else{
+		eventManager.triggerEvent("palettesComplete");
+	}
+}
+
+void MY_Scene_Main::makeSelection(){
+	selections.push_back(currentHoverTarget->texture);
+	ryan->mesh->pushTexture2D(currentHoverTarget->texture);
+	sweet::Event * e = new sweet::Event("selectionMade");
+	e->setStringData("selection", currentHoverTarget->name); // the selection
+	e->setStringData("type", palette->name); // sounds/generic animations for types of makeup? I don't know, powder?
+	eventManager.triggerEvent(e);
+
+	loadNextPalette();
 }
 
 

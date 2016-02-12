@@ -15,6 +15,7 @@
     <ClCompile Include="src\MY_Game.cpp" />
     <ClCompile Include="src\MY_MakeupArtist.cpp" />
     <ClCompile Include="src\MY_Palette.cpp" />
+    <ClCompile Include="src\MY_Palette_Definition.cpp" />
     <ClCompile Include="src\MY_ResourceManager.cpp" />
     <ClCompile Include="src\MY_Scene_Base.cpp" />
     <ClCompile Include="src\MY_Scene_Box2D.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="include\MY_Game.h" />
     <ClInclude Include="include\MY_MakeupArtist.h" />
     <ClInclude Include="include\MY_Palette.h" />
+    <ClInclude Include="include\MY_Palette_Definition.h" />
     <ClInclude Include="include\MY_ResourceManager.h" />
     <ClInclude Include="include\MY_Scene_Base.h" />
     <ClInclude Include="include\MY_Scene_Box2D.h" />

@@ -2,14 +2,12 @@
 
 #include <MY_Palette.h>
 #include <MY_ResourceManager.h>
+#include <MY_Palette_Definition.h>
 
-MY_Palette::MY_Palette(BulletWorld * _world, Shader * _shader){
+MY_Palette::MY_Palette(BulletWorld * _world, Shader * _shader):
+	name("")
+{
 	std::vector<TriMesh *> & meshes = MY_ResourceManager::globalAssets->getMesh("palette")->meshes;
-	Texture * tex = MY_ResourceManager::globalAssets->getTexture("palette")->texture;
-
-	for(auto m : meshes){
-		m->pushTexture2D(tex);
-	}
 
 	base = new MeshEntity(meshes.at(0), _shader);
 
@@ -19,9 +17,22 @@ MY_Palette::MY_Palette(BulletWorld * _world, Shader * _shader){
 		MY_SelectionTarget * colour = new MY_SelectionTarget(_world, meshes.at(i), _shader);
 		colour->setColliderAsBoundingBox();
 		colour->createRigidBody(0);
-		colour->name = "test_" + std::to_string(i);
 		childTransform->addChild(colour);
 		options.push_back(colour);
+	}
+}
+
+void MY_Palette::loadDefinition(MY_Palette_Definition * _def){
+	name = _def->name;
+
+	Texture * tex = _def->texture;
+	base->mesh->replaceTextures(tex);
+
+	for(unsigned long int i = 0; i < NUM_OPTIONS; ++i){
+		MY_SelectionTarget * o = options.at(i);
+		o->mesh->replaceTextures(tex);
+		o->name = _def->options.at(i)->name;
+		o->texture = _def->options.at(i)->texture;
 	}
 }
 
