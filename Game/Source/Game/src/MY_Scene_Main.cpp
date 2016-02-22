@@ -263,7 +263,7 @@ void MY_Scene_Main::update(Step * _step){
 	MY_Scene_Base::update(_step);
 
 	auto sd = sweet::getWindowDimensions();
-	uiLayer.resize(0, sd.x, 0, sd.y);
+	uiLayer.resize(0, sweet::ovrInitialized ? sd.x/2 : sd.x, 0, sd.y);
 	uiLayer.update(_step);
 
 	// update the mirror
