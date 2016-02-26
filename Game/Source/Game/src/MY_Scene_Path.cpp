@@ -51,6 +51,7 @@ MY_Scene_Path::MY_Scene_Path(Game * _game):
 }
 
 void MY_Scene_Path::update(Step * _step){
+	auto sd = sweet::getWindowDimensions();
 	positionInd->firstParent()->translate(mouse->mouseX(), mouse->mouseY(), 0.f, false);
 	if(keyboard->keyJustUp(GLFW_KEY_SPACE)) {
 		pathActive = !pathActive;
@@ -62,13 +63,21 @@ void MY_Scene_Path::update(Step * _step){
 			path->mesh->indices.push_back(path->mesh->vertices.size() - 1);
 		}
 		path->mesh->dirty = true;
-		points.push_back(glm::vec2(mouse->mouseX(), mouse->mouseY()));
+		
+		glm::vec2 ndc(
+			mouse->mouseX()/sd.x - 0.5f,
+			mouse->mouseY()/sd.y - 0.5f
+		);
+
+		float radius = glm::length(ndc);
+		float angle = glm::degrees(atan2(ndc.y, ndc.x));
+
+		points.push_back(glm::vec2(angle, radius));
 	}
 	if(keyboard->keyJustUp(GLFW_KEY_S) && keyboard->control) {
 		exportJson();
 	}
 	Scene::update(_step);
-	auto sd = sweet::getWindowDimensions();
 	uiLayer.resize(0, sd.x, 0, sd.y);
 	uiLayer.update(_step);
 }
@@ -88,9 +97,9 @@ void MY_Scene_Path::exportJson(){
 	int idx = 0;
 	for(auto point : points) {
 		if(idx == points.size() - 1) {
-			json << "\t\t[" << point.x - sd.x * 0.5f << "," << point.y - sd.y * 0.5f << "]\n";		
+			json << "\t\t[" << point.x << "," << point.y << "]\n";		
 		}else {
-			json << "\t\t[" << point.x - sd.x * 0.5f << "," << point.y - sd.y * 0.5f << "],\n";	
+			json << "\t\t[" << point.x << "," << point.y << "],\n";	
 		}
 		++idx;
 	}

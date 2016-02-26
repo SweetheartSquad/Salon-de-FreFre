@@ -5,7 +5,9 @@
 
 MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _points) :
 	points(_points),
-	currentPointIdx(0)
+	currentPointIdx(0),
+	angle(0),
+	radius(1)
 {
 	torso	= new MeshEntity(MY_ResourceManager::globalAssets->getMesh("torso")->meshes.at(0), _shader);
 	head	= new MeshEntity(MY_ResourceManager::globalAssets->getMesh("head")->meshes.at(0), _shader);
@@ -56,12 +58,44 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 
 void MY_MakeupArtist::update(Step * _step){
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
-		glm::vec3 current = firstParent()->getTranslationVector();
+		/*glm::vec3 current = firstParent()->getTranslationVector();
 		glm::vec2 target = points[currentPointIdx];
 		glm::vec2 d = target - glm::vec2(current.x, current.z);
 		if(glm::length2(d) > FLT_EPSILON){
 			firstParent()->translate(glm::vec3(d.x, 0, d.y) * 0.5f);
+		}*/
+		
+		float newAngle = points[currentPointIdx].x;
+		float newRadius = points[currentPointIdx].y;
+
+		float dAngle = newAngle - angle;
+		
+		while(dAngle > 360){
+			dAngle -= 360;
+		}while(dAngle < -360){
+			dAngle += 360;
 		}
+
+		if(glm::abs(dAngle) > FLT_EPSILON){
+			angle += dAngle * 0.25f;
+		}float dRadius = newRadius - radius;
+		if(glm::abs(dRadius) > FLT_EPSILON){
+			radius += dRadius * 0.25f;
+		}
+
+		while(angle > 360){
+			angle -= 360;
+		}while(angle < -180){
+			angle += 360;
+		}
+
+		glm::vec2 target(
+			sin(glm::radians(angle)) * radius,
+			cos(glm::radians(angle)) * radius
+		);
+		
+		firstParent()->translate(glm::vec3(target.x, 0, target.y), false);
+
 		currentPointIdx++;
 	}
 	Entity::update(_step);

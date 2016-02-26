@@ -17,6 +17,9 @@ public:
 		* eyeR,
 		* eyeL;
 
+	// polar coordinates
+	float angle, radius;
+
 	MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _points);
 
 	virtual void update(Step * _step) override;

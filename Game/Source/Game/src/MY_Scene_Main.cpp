@@ -102,8 +102,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		glm::vec2 ratio = glm::vec2(ROOM_WIDTH/path["windowSize"][0].asFloat(), ROOM_DEPTH/path["windowSize"][1].asFloat());
 		for(auto point : path["points"]) {
 			// Reverse co-ordinates because player is facing down z axis
-			float x = ratio.y * point[1].asFloat();
-			float z = ratio.x * point[0].asFloat();
+			float x = /*ratio.y * */point[0].asFloat();
+			float z = /*ratio.x * */point[1].asFloat() / glm::length(ratio);
 			points.push_back(glm::vec2(x, z));	
 		}
 	}
