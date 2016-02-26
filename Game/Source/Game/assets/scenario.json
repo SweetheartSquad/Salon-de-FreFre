@@ -61,13 +61,14 @@
   	// ARTIST
   	{
   		"id": "artist",
-  		"type": "mesh"/*,
-  		"src": "chair.obj"*/
+  		"type": "mesh",
+  		"src": "MadameDeFreFre.obj"
   	},
   	{
-  		"id": "artst",
-  		"type": "texture"/*,
-  		"src": "chair.png"*/
+  		"id": "artist",
+  		"type": "texture",
+  		"src": "MadameDeFreFre.png",
+      "generateMipmaps": false
   	},
 
   	// UI

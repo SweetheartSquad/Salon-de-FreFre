@@ -9,6 +9,7 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 	currentPointIdx(0)
 {
 	mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("artist")->texture);
+	mesh->setScaleMode(GL_NEAREST);
 }
 
 void MY_MakeupArtist::update(Step * _step){
