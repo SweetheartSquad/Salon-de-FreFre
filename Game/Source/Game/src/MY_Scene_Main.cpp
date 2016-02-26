@@ -256,6 +256,10 @@ void MY_Scene_Main::update(Step * _step){
 	// update the listener's position/orientation based on the camera
 	NodeOpenAL::setListener(vrCam, true);
 
+	// update the orientation of the artist
+	glm::vec3 d = activeCamera->childTransform->getWorldPos() - artist->childTransform->getWorldPos();
+	artist->childTransform->setOrientation(glm::angleAxis(glm::degrees(atan2(d.x, d.z)), glm::vec3(0,1,0)));
+
 	// update the physics bodies
 	bulletWorld->update(_step);
 

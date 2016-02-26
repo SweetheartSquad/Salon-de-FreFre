@@ -14,7 +14,12 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 
 void MY_MakeupArtist::update(Step * _step){
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
-		firstParent()->translate(points[currentPointIdx].x, firstParent()->getTranslationVector().y, points[currentPointIdx].y, false);
+		glm::vec3 current = firstParent()->getTranslationVector();
+		glm::vec2 target = points[currentPointIdx];
+		glm::vec2 d = target - glm::vec2(current.x, current.z);
+		if(glm::length2(d) > FLT_EPSILON){
+			firstParent()->translate(glm::vec3(d.x, 0, d.y) * 0.5f);
+		}
 		currentPointIdx++;
 	}
 	MeshEntity::update(_step);
