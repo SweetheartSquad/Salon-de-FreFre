@@ -59,11 +59,31 @@
   	},
 
   	// ARTIST
-  	{
-  		"id": "artist",
-  		"type": "mesh",
-  		"src": "MadameDeFreFre.obj"
-  	},
+    {
+      "id": "torso",
+      "type": "mesh",
+      "src": "MadameDeFreFre/torso.obj"
+    },
+    {
+      "id": "head",
+      "type": "mesh",
+      "src": "MadameDeFreFre/head.obj"
+    },
+    {
+      "id": "eye",
+      "type": "mesh",
+      "src": "MadameDeFreFre/eye.obj"
+    },
+    {
+      "id": "hand",
+      "type": "mesh",
+      "src": "MadameDeFreFre/hand.obj"
+    },
+    {
+      "id": "foot",
+      "type": "mesh",
+      "src": "MadameDeFreFre/foot.obj"
+    },
   	{
   		"id": "artist",
   		"type": "texture",
