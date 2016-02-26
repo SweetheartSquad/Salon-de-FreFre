@@ -50,8 +50,8 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 	handL->firstParent()->translate(glm::vec3(0.803, 0.561, 0))->scale(glm::vec3(-1,1,1));
 	footR->firstParent()->translate(glm::vec3(-0.262, -1.446, -0.216));
 	footL->firstParent()->translate(glm::vec3(0.262, -1.446, -0.216))->scale(glm::vec3(-1,1,1));
-	eyeR->firstParent()->translate(glm::vec3(-0.277, 0.774, 0.436));
-	eyeL->firstParent()->translate(glm::vec3(0.277, 0.774, 0.436))->scale(glm::vec3(-1,1,1));
+	eyeR->firstParent()->translate(glm::vec3(-0.277, 0.774, 0.44));
+	eyeL->firstParent()->translate(glm::vec3(0.277, 0.774, 0.44))->scale(glm::vec3(-1,1,1));
 }
 
 void MY_MakeupArtist::update(Step * _step){
