@@ -28,7 +28,6 @@ MY_Game::MY_Game() :
 	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	//scenes["vr"] = new MY_Scene_VR(this);
-	scenes["main"] = new MY_Scene_Main(this);
 	scenes["path"] = new MY_Scene_Path(this);
 }
 

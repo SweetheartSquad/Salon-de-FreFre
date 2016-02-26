@@ -4,6 +4,8 @@
 #include <shader/ComponentShaderText.h>
 #include <sweet/UI.h>
 
+#include <MY_Scene_Main.h>
+
 MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	MY_Scene_Base(_game)
 {
@@ -76,6 +78,9 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 		game->exit();
 	});
 	label7->eventManager.addEventListener("click", [&](sweet::Event * _event){
+		if(game->scenes.count("main") == 0){
+			game->scenes["main"] = new MY_Scene_Main(game);
+		}
 		game->switchScene("main", false);
 	});
 	label8->eventManager.addEventListener("click", [&](sweet::Event * _event){
