@@ -57,6 +57,27 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MeshInterface * chairMesh = MY_ResourceManager::globalAssets->getMesh("chair")->meshes.at(0);
 	chairMesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("chair")->texture);
 	
+
+	std::vector<TriMesh *> salonMeshes = MY_ResourceManager::globalAssets->getMesh("salon")->meshes;
+	std::vector<std::string> meshOrder;
+	meshOrder.push_back("floor");
+	meshOrder.push_back("walls");
+	meshOrder.push_back("ceiling");
+	meshOrder.push_back("storefront");
+	meshOrder.push_back("door");
+	meshOrder.push_back("windows");
+	meshOrder.push_back("road");
+	meshOrder.push_back("buildings");
+	meshOrder.push_back("sidewalk");
+
+	for(unsigned long int i = 0; i < salonMeshes.size(); ++i){
+		MeshEntity * c = new MeshEntity(salonMeshes.at(i), baseShader);
+		c->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("salon-" + meshOrder.at(i))->texture);
+		c->mesh->setScaleMode(GL_NEAREST);
+		childTransform->addChild(c, false);
+	}
+
+
 	MeshEntity * chair = new MeshEntity(chairMesh, baseShader);
 
 	childTransform->addChild(chair);
