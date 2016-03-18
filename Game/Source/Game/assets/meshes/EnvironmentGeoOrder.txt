@@ -1,0 +1,9 @@
+Floor
+Walls
+Ceiling
+StoreFront
+Door
+Windows
+Road
+Buildings
+Sidewalk
