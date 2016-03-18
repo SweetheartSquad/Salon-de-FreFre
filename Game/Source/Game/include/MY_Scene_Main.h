@@ -21,7 +21,7 @@ public:
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
 
-	sweet::EventManager eventManager;
+	sweet::EventManager * eventManager;
 
 	// The scene's physics world
 	BulletWorld * bulletWorld;

@@ -29,7 +29,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	uiLayer(0, 0, 0, 0),
 
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
-	screenSurface(new RenderSurface(screenSurfaceShader)),
+	screenSurface(new RenderSurface(screenSurfaceShader, true)),
 	screenFBO(new StandardFrameBuffer(true)),
 	
 	paletteDefIdx(-1),
@@ -37,7 +37,9 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	waitingForInput(false),
 	currentHoverTarget(nullptr),
 	hoverTime(0),
-	targetHoverTime(1.f)
+	targetHoverTime(1.f),
+
+	eventManager(new sweet::EventManager())
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -178,6 +180,8 @@ MY_Scene_Main::~MY_Scene_Main(){
 	screenSurface->decrementAndDelete();
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
+
+	delete eventManager;
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
@@ -284,7 +288,7 @@ void MY_Scene_Main::loadNextPalette(){
 	if(paletteDefIdx < paletteDefs.size()){
 		palette->loadDefinition(paletteDefs.at(paletteDefIdx));
 	}else{
-		eventManager.triggerEvent("palettesComplete");
+		eventManager->triggerEvent("palettesComplete");
 	}
 }
 
@@ -294,7 +298,7 @@ void MY_Scene_Main::makeSelection(){
 	sweet::Event * e = new sweet::Event("selectionMade");
 	e->setStringData("selection", currentHoverTarget->name); // the selection
 	e->setStringData("type", palette->name); // sounds/generic animations for types of makeup? I don't know, powder?
-	eventManager.triggerEvent(e);
+	eventManager->triggerEvent(e);
 
 	loadNextPalette();
 }

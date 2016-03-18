@@ -47,6 +47,15 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	label6->setBackgroundColour(1,1,1,1);
 	label7->setBackgroundColour(1,1,1,1);
 	label8->setBackgroundColour(1,1,1,1);
+	
+	label1->setPixelHeight(50);
+	label2->setPixelHeight(50);
+	label3->setPixelHeight(50);
+	label4->setPixelHeight(50);
+	label5->setPixelHeight(50);
+	label6->setPixelHeight(50);
+	label7->setPixelHeight(50);
+	label8->setPixelHeight(50);
 
 	// make the labels clickable
 	label1->setMouseEnabled(true);
@@ -59,31 +68,31 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	label8->setMouseEnabled(true);
 
 	// add listeners to each label, making them buttons that take the player to different scenes
-	label1->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label1->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("box2d", false);
 	});
-	label2->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label2->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("bullet3d", false);
 	});
-	label3->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label3->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("surfaceshaders", false);
 	});
-	label4->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label4->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("screenshaders", false);
 	});
-	label5->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label5->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("vr", false);
 	});
-	label6->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label6->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->exit();
 	});
-	label7->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label7->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		if(game->scenes.count("main") == 0){
 			game->scenes["main"] = new MY_Scene_Main(game);
 		}
 		game->switchScene("main", false);
 	});
-	label8->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label8->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->switchScene("path", false);
 	});
 

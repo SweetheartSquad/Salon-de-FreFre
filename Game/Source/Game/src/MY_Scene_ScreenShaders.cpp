@@ -7,7 +7,7 @@
 MY_Scene_ScreenShaders::MY_Scene_ScreenShaders(Game * _game) :
 	MY_Scene_Base(_game),
 	screenSurfaceShader(new Shader("assets/RenderSurface_1", false, true)),
-	screenSurface(new RenderSurface(screenSurfaceShader)),
+	screenSurface(new RenderSurface(screenSurfaceShader, true)),
 	screenFBO(new StandardFrameBuffer(true))
 {
 	// set-up some UI to toggle between results

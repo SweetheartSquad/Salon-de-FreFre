@@ -58,6 +58,58 @@
   		"src": "chair.png"
   	},
 
+    // PLACE
+    {
+      "id": "salon",
+      "type": "mesh",
+      "src": "VR_Environment.obj"
+    },
+    {
+      "id": "salon-floor",
+      "type": "texture",
+      "src": "floorUV.png"
+    },
+    {
+      "id": "salon-walls",
+      "type": "texture",
+      "src": "wallUV.png"
+    },
+    {
+      "id": "salon-ceiling",
+      "type": "texture",
+      "src": "ceiling.png"
+    },
+    {
+      "id": "salon-storefront",
+      "type": "texture",
+      "src": "frontFaceUV.png"
+    },
+    {
+      "id": "salon-door",
+      "type": "texture",
+      "src": "doorUV.png"
+    },
+    {
+      "id": "salon-windows",
+      "type": "texture",
+      "src": "windowUV.png"
+    },
+    {
+      "id": "salon-road",
+      "type": "texture",
+      "src": "floorUV.png"
+    },
+    {
+      "id": "salon-buildings",
+      "type": "texture",
+      "src": "buildings.png"
+    },
+    {
+      "id": "salon-sidewalk",
+      "type": "texture",
+      "src": "sidewalk_Texture.png"
+    },
+
   	// ARTIST
     {
       "id": "torso",

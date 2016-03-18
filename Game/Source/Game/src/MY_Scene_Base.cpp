@@ -34,7 +34,7 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	baseShader->addComponent(new ShaderComponentTexture(baseShader));
 	baseShader->compileShader();
 
-	textShader->textComponent->setColor(glm::vec3(0.0f, 0.0f, 0.0f));
+	textShader->textComponent->setColor(glm::vec4(255.0f, 1.0f, 0.0f, 255.f));
 
 	// Set up debug camera
 	cameras.push_back(debugCam); // Add it to the cameras list (this isn't strictly necessary, but is useful organizational and debugging purposes)
