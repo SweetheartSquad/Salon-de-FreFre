@@ -31,7 +31,7 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 {
 	baseShader->addComponent(new ShaderComponentMVP(baseShader));
 	//baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
-	baseShader->addComponent(new ShaderComponentTexture(baseShader));
+	baseShader->addComponent(new ShaderComponentTexture(baseShader, 0.1f));
 	baseShader->compileShader();
 
 	textShader->textComponent->setColor(glm::vec4(255.0f, 1.0f, 0.0f, 255.f));

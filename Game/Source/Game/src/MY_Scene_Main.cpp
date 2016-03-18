@@ -43,7 +43,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
-	indicatorShader->addComponent(new ShaderComponentTexture(indicatorShader));
+	indicatorShader->addComponent(new ShaderComponentTexture(indicatorShader, 0.1f));
 	maskComponentIndicator = new ShaderComponentCircularMask(indicatorShader, 0.1);
 	indicatorShader->addComponent(maskComponentIndicator);
 	indicatorShader->compileShader();
@@ -56,6 +56,11 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	MeshInterface * chairMesh = MY_ResourceManager::globalAssets->getMesh("chair")->meshes.at(0);
 	chairMesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("chair")->texture);
+
+	for(signed long int i = -1; i < 3; ++i){
+		MeshEntity * chair = new MeshEntity(chairMesh, baseShader);
+		childTransform->addChild(chair)->translate(glm::vec3(i * 3, 0, 0));
+	}
 	
 
 	std::vector<TriMesh *> salonMeshes = MY_ResourceManager::globalAssets->getMesh("salon")->meshes;
@@ -77,10 +82,6 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		childTransform->addChild(c, false);
 	}
 
-
-	MeshEntity * chair = new MeshEntity(chairMesh, baseShader);
-
-	childTransform->addChild(chair);
 
 	childTransform->addChild(vrCam)->translate(0, 4, 0);
 	activeCamera = vrCam;
