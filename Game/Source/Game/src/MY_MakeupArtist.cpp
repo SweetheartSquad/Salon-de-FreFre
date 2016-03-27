@@ -2,6 +2,7 @@
 
 #include <MY_MakeupArtist.h>
 #include <MY_ResourceManager.h>
+#include <NumberUtils.h>
 
 MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _points) :
 	points(_points),
@@ -98,7 +99,13 @@ void MY_MakeupArtist::update(Step * _step){
 		}*/
 		
 		float newAngle = points[currentPointIdx].x;
-		float newRadius = points[currentPointIdx].y;
+		float newRadius = glm::max(points[currentPointIdx].y, 0.75f);
+		
+		// stand off to the side when waiting
+		if(paused){
+			newAngle = -75;
+			newRadius = 1.f;
+		}
 
 		float dAngle = newAngle - angle;
 		
