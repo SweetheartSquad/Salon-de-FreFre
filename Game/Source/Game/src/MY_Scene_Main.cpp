@@ -342,14 +342,14 @@ void MY_Scene_Main::getNextTrack(){
 		// stop the old track and remove it from the scene
 		if(currentTrack != nullptr){
 			currentTrack->stop();
-			artist->childTransform->removeChild(currentTrack);
+			artist->head->childTransform->removeChild(currentTrack);
 		}
 
 		++currentTrackId;
 		currentTrack = MY_ResourceManager::globalAssets->getAudio(tracks->tracks.at(currentTrackId).audioTrack)->sound;
 	
 		// add the new track to the scene and play it
-		artist->childTransform->addChild(currentTrack, false);
+		artist->head->childTransform->addChild(currentTrack, false);
 		currentTrack->play(); // (shouldn't actually loop in the final, just for testing)
 
 		// reset the selection stuff
