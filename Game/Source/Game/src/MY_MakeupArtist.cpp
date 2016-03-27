@@ -55,9 +55,40 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 	footL->firstParent()->translate(glm::vec3(0.262, -1.446, -0.216))->scale(glm::vec3(-1,1,1));
 	eyeR->firstParent()->translate(glm::vec3(-0.277, 0.774, 0.44));
 	eyeL->firstParent()->translate(glm::vec3(0.277, 0.774, 0.44))->scale(glm::vec3(-1,1,1));
+
+	// blink
+	blink = 1;
+	blinkAnim = new Animation<float>(&blink);
+	blinkAnim->tweens.push_back(new Tween<float>(5, 0, Easing::kLINEAR));
+	blinkAnim->tweens.push_back(new Tween<float>(0.15, -1, Easing::kEASE_IN_CUBIC));
+	blinkAnim->tweens.push_back(new Tween<float>(0.125, 1, Easing::kEASE_OUT_CUBIC));
+	blinkAnim->hasStart = true;
+
+	// breathing
+	breathe = 1;
+	breatheAnim = new Animation<float>(&breathe);
+	float torsoScaleDelta = 0.05f;
+	breatheAnim->tweens.push_back(new Tween<float>(3, torsoScaleDelta, Easing::kEASE_IN_OUT_CUBIC));
+	breatheAnim->tweens.push_back(new Tween<float>(2, 0, Easing::kLINEAR));
+	breatheAnim->tweens.push_back(new Tween<float>(1, -torsoScaleDelta, Easing::kEASE_IN_OUT_CUBIC));
+	breatheAnim->hasStart = true;
+}
+
+MY_MakeupArtist::~MY_MakeupArtist(){
+	delete breatheAnim;
+	delete blinkAnim;
 }
 
 void MY_MakeupArtist::update(Step * _step){
+	//ambient animation
+	breatheAnim->update(_step);
+	blinkAnim->update(_step);
+	
+	childTransform->scale(glm::vec3(1, breathe, 1), false);
+	eyeR->childTransform->scale(glm::vec3(1, blink, 1), false);
+	eyeL->childTransform->scale(glm::vec3(1, blink, 1), false);
+
+
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
 		/*glm::vec3 current = firstParent()->getTranslationVector();
 		glm::vec2 target = points[currentPointIdx];
