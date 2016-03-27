@@ -11,6 +11,7 @@
 #include <Resource.h>
 #include <VerticalLinearLayout.h>
 #include <MeshFactory.h>
+#include <Tracks.h>
 
 #define ROOM_WIDTH  50.f
 #define ROOM_DEPTH 50.f
@@ -25,7 +26,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 
 	currentTrack(nullptr),
-	currentTrackId(0),
+	currentTrackId(-1),
 	uiLayer(0, 0, 0, 0),
 
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
@@ -149,10 +150,6 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
 	childTransform->addChild(cubemap);
 
-
-	// start the experience
-	getNextTrack();
-
 	Sprite * sprite = new Sprite(MY_ResourceManager::globalAssets->getTexture("indicator")->texture, indicatorShader);
 
 	auto sd = sweet::getWindowDimensions();
@@ -194,6 +191,14 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	++screenSurface->referenceCount;
 	++screenSurfaceShader->referenceCount;
 	++screenFBO->referenceCount;
+
+
+
+	// load the tracks
+	tracks = new Tracks();
+
+	// start the experience
+	getNextTrack();
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -275,7 +280,11 @@ void MY_Scene_Main::update(Step * _step){
 
 		// if the audio stream has finished, switch to user input
 		if(currentTrack->source->state != AL_PLAYING){
-			waitingForInput = true;
+			if(tracks->tracks.at(currentTrackId).needsInput){
+				waitingForInput = true;
+			}else{
+				getNextTrack();
+			}
 		}
 	}
 
@@ -327,25 +336,26 @@ void MY_Scene_Main::makeSelection(){
 
 
 void MY_Scene_Main::getNextTrack(){
-	// stop the old track and remove it from the scene
-	if(currentTrack != nullptr){
-		currentTrack->stop();
-		artist->childTransform->removeChild(currentTrack);
-	}
-
-	++currentTrackId;
-	std::stringstream ss;
-	ss << "track" << currentTrackId;
-	currentTrack = MY_ResourceManager::globalAssets->getAudio(ss.str())->sound;
 	
-	// add the new track to the scene and play it
-	artist->childTransform->addChild(currentTrack, false);
-	currentTrack->play(); // (shouldn't actually loop in the final, just for testing)
+	if(currentTrackId < 10){
+		// stop the old track and remove it from the scene
+		if(currentTrack != nullptr){
+			currentTrack->stop();
+			artist->childTransform->removeChild(currentTrack);
+		}
 
-	// reset the selection stuff
-	waitingForInput = false;
-	currentHoverTarget = nullptr;
-	hoverTime = 0;
+		++currentTrackId;
+		currentTrack = MY_ResourceManager::globalAssets->getAudio(tracks->tracks.at(currentTrackId).audioTrack)->sound;
+	
+		// add the new track to the scene and play it
+		artist->childTransform->addChild(currentTrack, false);
+		currentTrack->play(); // (shouldn't actually loop in the final, just for testing)
+
+		// reset the selection stuff
+		waitingForInput = false;
+		currentHoverTarget = nullptr;
+		hoverTime = 0;
+	}
 }
 
 

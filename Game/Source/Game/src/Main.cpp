@@ -30,7 +30,7 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 
 	sweet::initialize("Game"); // initialize engine (argument is application title)
 
-	//OpenAL_Sound::masterGain = 0; // mute
+	OpenAL_Sound::masterGain = 10; // mute
 	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
 
 	// load resources

@@ -70,7 +70,7 @@ void MY_Scene_Path::update(Step * _step){
 		);
 
 		float radius = glm::length(ndc);
-		float angle = glm::degrees(atan2(ndc.y, ndc.x));
+		float angle = glm::degrees(glm::atan(ndc.y, ndc.x));
 
 		points.push_back(glm::vec2(angle, radius));
 	}

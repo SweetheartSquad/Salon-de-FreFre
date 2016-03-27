@@ -73,7 +73,7 @@ void MY_Scene_Base::update(Step * _step){
 		// if the user hits escape on the menu, exit the game
 		// if the user hits escape anywhere else, take them to the menu
 		if(game->scenes["menu"] == this){
-			game->exit();
+			//game->exit();
 		}else{
 			game->switchScene("menu", false);
 		}

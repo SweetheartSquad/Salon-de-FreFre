@@ -14,6 +14,7 @@
 #include <MY_Palette_Definition.h>
 
 class StereoCamera;
+class Tracks;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
@@ -23,6 +24,8 @@ public:
 
 	sweet::EventManager * eventManager;
 
+	Tracks * tracks;
+
 	// The scene's physics world
 	BulletWorld * bulletWorld;
 	// used to draw wireframes showing physics colliders, transforms, etc
@@ -30,7 +33,7 @@ public:
 
 
 	// ID of the currently playing audio track
-	unsigned long int currentTrackId;
+	signed long int currentTrackId;
 	// currently playing audio track
 	OpenAL_Sound * currentTrack;
 	// increments currentTrackId and replaces the current track with the one located at the new ID
