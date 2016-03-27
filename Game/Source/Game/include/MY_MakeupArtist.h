@@ -7,6 +7,8 @@ public:
 	std::vector<glm::vec2> points;
 	int currentPointIdx;
 
+	bool paused;
+
 	MeshEntity
 		* torso,
 		* head,
