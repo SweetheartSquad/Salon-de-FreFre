@@ -91,13 +91,6 @@ void MY_MakeupArtist::update(Step * _step){
 
 
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
-		/*glm::vec3 current = firstParent()->getTranslationVector();
-		glm::vec2 target = points[currentPointIdx];
-		glm::vec2 d = target - glm::vec2(current.x, current.z);
-		if(glm::length2(d) > FLT_EPSILON){
-			firstParent()->translate(glm::vec3(d.x, 0, d.y) * 0.5f);
-		}*/
-		
 		float newAngle = points[currentPointIdx].x;
 		float newRadius = glm::max(points[currentPointIdx].y, 0.75f);
 		
@@ -109,9 +102,9 @@ void MY_MakeupArtist::update(Step * _step){
 
 		float dAngle = newAngle - angle;
 		
-		while(dAngle > 360){
+		while(dAngle > 180){
 			dAngle -= 360;
-		}while(dAngle < -360){
+		}while(dAngle < -180){
 			dAngle += 360;
 		}
 
