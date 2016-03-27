@@ -116,10 +116,10 @@ void MY_MakeupArtist::update(Step * _step){
 		}
 
 		if(glm::abs(dAngle) > FLT_EPSILON){
-			angle += dAngle * 0.1f;
+			angle += dAngle * 0.025f;
 		}float dRadius = newRadius - radius;
 		if(glm::abs(dRadius) > FLT_EPSILON){
-			radius += dRadius * 0.1f;
+			radius += dRadius * 0.025f;
 		}
 
 		while(angle > 360){
