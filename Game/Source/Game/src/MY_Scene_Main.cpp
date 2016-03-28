@@ -201,13 +201,16 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
-	
+	deleteChildTransform();
+
 	// memory management
 	screenSurface->decrementAndDelete();
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
 
 	delete eventManager;
+	delete bulletWorld;
+	delete tracks;
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){

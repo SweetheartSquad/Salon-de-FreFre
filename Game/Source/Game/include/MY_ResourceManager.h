@@ -8,4 +8,7 @@ public:
 	// A container for all of the assets which are loaded at initialization and are accessible from anywhere in the application, at any time
 	static Scenario * globalAssets;
 	static void init();
+
+	MY_ResourceManager();
+	~MY_ResourceManager();
 };

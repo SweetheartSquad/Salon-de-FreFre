@@ -6,7 +6,6 @@
 #include <MY_MakeupArtist.h>
 #include <MY_Palette.h>
 
-#include <MY_Scene_ScreenShaders.h>
 #include <RenderSurface.h>
 #include <StandardFrameBuffer.h>
 #include <FBOTexture.h>

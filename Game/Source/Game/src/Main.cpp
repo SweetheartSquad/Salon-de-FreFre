@@ -38,8 +38,7 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 #endif
 
 	// load resources
-	MY_ResourceManager::init();
-	MY_ResourceManager::load();
+	MY_ResourceManager * resources = new MY_ResourceManager();
 
 	// create and initialize game
 	MY_Game * game = new MY_Game();
@@ -53,7 +52,10 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	// deallocate resources
 	delete game;
 	game = nullptr;
-	MY_ResourceManager::destruct();
+	delete resources;
+	resources = nullptr;
+	
+	sweet::destruct();
 #ifdef _DEBUG
 	if(Node::nodeCounting){
 		std::cout << "Final node count: " << Node::nodes.size() << std::endl;
@@ -64,7 +66,6 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	}
 #endif
 
-	sweet::destruct();
 	
 #ifdef _DEBUG
 	_CrtMemDumpAllObjectsSince(&s1);
