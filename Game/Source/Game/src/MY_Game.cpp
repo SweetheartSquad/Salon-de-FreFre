@@ -24,7 +24,6 @@ MY_Game::MY_Game() :
 	// before switching to it, and create it then if needed.
 	scenes["box2d"] = new MY_Scene_Box2D(this);
 	scenes["bullet3d"] = new MY_Scene_Bullet3D(this);
-	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
 	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	//scenes["vr"] = new MY_Scene_VR(this);

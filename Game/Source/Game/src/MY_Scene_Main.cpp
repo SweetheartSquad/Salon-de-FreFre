@@ -27,7 +27,6 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	currentTrack(nullptr),
 	currentTrackId(-1),
-	uiLayer(0, 0, 0, 0),
 
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
 	screenSurface(new RenderSurface(screenSurfaceShader, true)),
@@ -153,15 +152,15 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	Sprite * sprite = new Sprite(MY_ResourceManager::globalAssets->getTexture("indicator")->texture, indicatorShader);
 
 	auto sd = sweet::getWindowDimensions();
-	uiLayer.resize(0, sd.x, 0, sd.y);
+	uiLayer->resize(0, sd.x, 0, sd.y);
 
-	VerticalLinearLayout * crosshairLayout = new VerticalLinearLayout(uiLayer.world);
-	crosshairLayout->setRationalWidth(1.0f, &uiLayer);
-	crosshairLayout->setRationalHeight(1.0f, &uiLayer);
+	VerticalLinearLayout * crosshairLayout = new VerticalLinearLayout(uiLayer->world);
+	crosshairLayout->setRationalWidth(1.0f, uiLayer);
+	crosshairLayout->setRationalHeight(1.0f, uiLayer);
 	crosshairLayout->horizontalAlignment = kCENTER;
 	crosshairLayout->verticalAlignment = kMIDDLE;
 
-	NodeUI * crossHair = new NodeUI(uiLayer.world);
+	NodeUI * crossHair = new NodeUI(uiLayer->world);
 	crossHair->setWidth(15);
 	crossHair->setHeight(15);
 	crossHair->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("crosshair")->texture);
@@ -170,7 +169,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	crossHair->childTransform->addChild(sprite)->scale(100)->translate(7.5f, 7.5f, 0.f);
 
-	uiLayer.addChild(crosshairLayout);
+	uiLayer->addChild(crosshairLayout);
 
 	
 	// setup mirror
@@ -243,14 +242,14 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		screenSurface->render(screenFBO->getTextureId());
 
 		// render the uiLayer after the screen surface in order to avoid hiding it through shader code
-		uiLayer.render(_matrixStack, _renderOptions);
+		uiLayer->render(_matrixStack, _renderOptions);
 	});
 	// If an hmd is connected, we blit the stereo camera's buffers back to the screen after we're done rendering
 	if(sweet::ovrInitialized){
 		vrCam->blitTo(0);
 	}
 
-	//uiLayer.render(_matrixStack, _renderOptions);
+	//uiLayer->render(_matrixStack, _renderOptions);
 }
 
 void MY_Scene_Main::update(Step * _step){
@@ -303,8 +302,8 @@ void MY_Scene_Main::update(Step * _step){
 	MY_Scene_Base::update(_step);
 
 	auto sd = sweet::getWindowDimensions();
-	uiLayer.resize(0, sweet::ovrInitialized ? sd.x/2 : sd.x, 0, sd.y);
-	uiLayer.update(_step);
+	uiLayer->resize(0, sweet::ovrInitialized ? sd.x/2 : sd.x, 0, sd.y);
+	uiLayer->update(_step);
 
 	// update the mirror
 	// (it's important to do this after the scene update, because we're overriding attributes which the camera typically handles on its own)

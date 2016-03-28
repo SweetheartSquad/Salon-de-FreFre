@@ -51,8 +51,6 @@ public:
 
 	int paletteDefIdx;
 	std::vector<MY_Palette_Definition *> paletteDefs;
-
-	UILayer uiLayer;
 	
 	MY_Scene_Main(Game * _game);
 	~MY_Scene_Main();
