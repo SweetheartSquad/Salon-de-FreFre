@@ -184,12 +184,13 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), baseShader);
 	childTransform->addChild(mirrorSurface)->translate(0, 5, 5, false)->scale(glm::vec3(16,-9,1));
 	mirrorSurface->mesh->pushTexture2D(mirrorTex);
+	mirrorFBO->incrementReferenceCount();
 
 
 	// memory management
-	++screenSurface->referenceCount;
-	++screenSurfaceShader->referenceCount;
-	++screenFBO->referenceCount;
+	screenSurface->incrementReferenceCount();
+	screenSurfaceShader->incrementReferenceCount();
+	screenFBO->incrementReferenceCount();
 
 
 
@@ -207,6 +208,7 @@ MY_Scene_Main::~MY_Scene_Main(){
 	screenSurface->decrementAndDelete();
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
+	mirrorFBO->decrementAndDelete();
 
 	delete eventManager;
 	delete bulletWorld;
