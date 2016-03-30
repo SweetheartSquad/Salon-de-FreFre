@@ -109,8 +109,8 @@ void MY_MakeupArtist::update(Step * _step){
 		
 		// stand off to the side when waiting
 		if(paused){
-			newAngle = 75 * glm::sign(newAngle);
-			newRadius = 1.f;
+			newAngle = 95 * glm::sign(newAngle);
+			newRadius = 1.25f;
 		}
 
 		float dAngle = newAngle - angle;

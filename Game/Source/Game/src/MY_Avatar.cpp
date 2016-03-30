@@ -29,6 +29,9 @@ MY_Avatar::MY_Avatar(Shader * _shader, Camera * _playerCam) :
 	cheeks->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	lips->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 
+	lashes->mesh->setScaleMode(GL_NEAREST);
+	liner->mesh->setScaleMode(GL_NEAREST);
+
 	childTransform->addChild(base);
 
 	base->childTransform->addChild(head)->translate(0, 3, -0.3);

@@ -30,11 +30,133 @@
       "src": "palettes/eyeliner.png",
       "generateMipmaps": false
     },
+
+  // AVATAR TEXTURES
   {
       "id": "mascara",
       "type": "texture",
-      "src": "palettes/mascara.png",
+      "src": "ryan/mascara.png",
+      "generateMipmaps": false
+    },{
+      "id": "blush_0",
+      "type": "texture",
+      "src": "ryan/blush_0.jpg",
       "generateMipmaps": true
+    },{
+      "id": "blush_1",
+      "type": "texture",
+      "src": "ryan/blush_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_2",
+      "type": "texture",
+      "src": "ryan/blush_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_3",
+      "type": "texture",
+      "src": "ryan/blush_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_4",
+      "type": "texture",
+      "src": "ryan/blush_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_5",
+      "type": "texture",
+      "src": "ryan/blush_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_0",
+      "type": "texture",
+      "src": "ryan/lipstick_0.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_1",
+      "type": "texture",
+      "src": "ryan/lipstick_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_2",
+      "type": "texture",
+      "src": "ryan/lipstick_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_3",
+      "type": "texture",
+      "src": "ryan/lipstick_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_4",
+      "type": "texture",
+      "src": "ryan/lipstick_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_5",
+      "type": "texture",
+      "src": "ryan/lipstick_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_0",
+      "type": "texture",
+      "src": "ryan/eyeshadow_0.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_1",
+      "type": "texture",
+      "src": "ryan/eyeshadow_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_2",
+      "type": "texture",
+      "src": "ryan/eyeshadow_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_3",
+      "type": "texture",
+      "src": "ryan/eyeshadow_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_4",
+      "type": "texture",
+      "src": "ryan/eyeshadow_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_5",
+      "type": "texture",
+      "src": "ryan/eyeshadow_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeliner_0",
+      "type": "texture",
+      "src": "ryan/eyeliner_0.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_1",
+      "type": "texture",
+      "src": "ryan/eyeliner_1.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_2",
+      "type": "texture",
+      "src": "ryan/eyeliner_2.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_3",
+      "type": "texture",
+      "src": "ryan/eyeliner_3.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_4",
+      "type": "texture",
+      "src": "ryan/eyeliner_4.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_5",
+      "type": "texture",
+      "src": "ryan/eyeliner_5.jpg",
+      "generateMipmaps": false
     },
 
   	// CHAIR

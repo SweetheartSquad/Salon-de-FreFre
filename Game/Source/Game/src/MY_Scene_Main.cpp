@@ -120,6 +120,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	//palette->rotatePhysical(90, 0, 1, 0, kOBJECT);
 	
 	CameraController * c = new CameraController(vrCam);
+	c->movementSpeed = 0.05f;
 	vrCam->childTransform->addChild(c, false);
 
 	std::vector<glm::vec2> points;
@@ -196,7 +197,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorCamera = new PerspectiveCamera();
 	childTransform->addChild(mirrorCamera);
 	cameras.push_back(mirrorCamera);
-	mirrorCamera->firstParent()->translate(0, 5, 5, false);
+	mirrorCamera->firstParent()->translate(0, 5, 2.5, false);
 
 	mirrorFBO = new StandardFrameBuffer(true);
 	mirrorTex = new FBOTexture(mirrorFBO, true, 0, false);
@@ -333,7 +334,7 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the orientation of the artist
 	float d = artist->head->childTransform->getWorldPos().y - artist->childTransform->getWorldPos().y;
-	artist->childTransform->lookAt(activeCamera->childTransform->getWorldPos() - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.1f);
+	artist->childTransform->lookAt(avatar->head->childTransform->getWorldPos() + glm::vec3(0,0.35f,0) - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.1f);
 	artist->paused = waitingForInput;
 
 	// update the physics bodies
