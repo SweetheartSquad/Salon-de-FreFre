@@ -58,6 +58,30 @@
   		"src": "chair.png"
   	},
 
+    // AVATAR
+    {
+      "id": "avatarBase",
+      "type": "mesh",
+      "src": "AvatarBase.obj"
+    },
+    {
+      "id": "avatarHead",
+      "type": "mesh",
+      "src": "AvatarHead.obj"
+    },
+    {
+      "id": "fabric",
+      "type": "texture",
+      "src": "ryan/fabric.jpg",
+      "generateMipmaps": true
+    },
+    {
+      "id": "original",
+      "type": "texture",
+      "src": "ryan/original.jpg",
+      "generateMipmaps": true
+    },
+
     // PLACE
     {
       "id": "salon",

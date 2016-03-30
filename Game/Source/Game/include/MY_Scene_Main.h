@@ -14,6 +14,7 @@
 
 class StereoCamera;
 class Tracks;
+class MY_Avatar;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
@@ -79,6 +80,6 @@ public:
 	StandardFrameBuffer * mirrorFBO;
 	FBOTexture * mirrorTex;
 	MeshEntity * mirrorSurface;
-
-	MeshEntity * ryan;
+	
+	MY_Avatar * avatar;
 };

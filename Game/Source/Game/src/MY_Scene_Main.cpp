@@ -12,6 +12,8 @@
 #include <VerticalLinearLayout.h>
 #include <MeshFactory.h>
 #include <Tracks.h>
+#include <MY_Avatar.h>
+#include <RenderOptions.h>
 
 #define ROOM_WIDTH  50.f
 #define ROOM_DEPTH 50.f
@@ -83,16 +85,14 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	}
 
 
-	childTransform->addChild(vrCam)->translate(0, 4, 0);
 	activeCamera = vrCam;
 	cameras.push_back(vrCam);
 	vrCam->yaw = -90;
 	vrCam->nearClip = 0.001f;
 
-	ryan = new MeshEntity(MeshFactory::getPlaneMesh(2.f, 2.f), baseShader);
-	ryan->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("DEFAULT")->texture);
-	childTransform->addChild(ryan);
-
+	avatar = new MY_Avatar(baseShader, vrCam);
+	childTransform->addChild(avatar);
+	avatar->head->childTransform->addChild(vrCam)->translate(0, 0.5f, 0);
 
 	/*MeshEntity * test = new MeshEntity(Resource::loadMeshFromObj("assets/meshes/buttman.obj", true).at(0), baseShader);
 	Texture * tex = new Texture("assets/textures/buttman.png", false, true, true);
@@ -222,6 +222,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		Camera * c = activeCamera;
 
 		activeCamera = mirrorCamera;
+		avatar->head->setVisible(true);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 
 		activeCamera = c;
@@ -238,6 +239,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		// bind our screen framebuffer
 		FrameBufferInterface::pushFbo(screenFBO);
 		// render the scene
+		avatar->head->setVisible(false);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 		// unbind our screen framebuffer, rebinding the previously bound framebuffer
 		// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
@@ -330,7 +332,7 @@ void MY_Scene_Main::loadNextPalette(){
 
 void MY_Scene_Main::makeSelection(){
 	selections.push_back(currentHoverTarget->texture);
-	ryan->mesh->pushTexture2D(currentHoverTarget->texture);
+	//ryan->mesh->pushTexture2D(currentHoverTarget->texture);
 	sweet::Event * e = new sweet::Event("selectionMade");
 	e->setStringData("selection", currentHoverTarget->name); // the selection
 	e->setStringData("type", palette->name); // sounds/generic animations for types of makeup? I don't know, powder?

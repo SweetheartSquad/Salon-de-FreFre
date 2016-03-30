@@ -30,9 +30,6 @@ int __stdcall WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 
 	sweet::initialize("Game"); // initialize engine (argument is application title)
 
-	OpenAL_Sound::masterGain = 10; // mute
-	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
-
 #ifdef _DEBUG
 	Node::nodeCounting = true; // uncomment this if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
 #endif

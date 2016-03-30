@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\MY_Avatar.cpp" />
     <ClCompile Include="src\MY_Game.cpp" />
     <ClCompile Include="src\MY_MakeupArtist.cpp" />
     <ClCompile Include="src\MY_Palette.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="src\Tracks.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\MY_Avatar.h" />
     <ClInclude Include="include\MY_Game.h" />
     <ClInclude Include="include\MY_MakeupArtist.h" />
     <ClInclude Include="include\MY_Palette.h" />

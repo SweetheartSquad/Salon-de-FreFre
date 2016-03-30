@@ -1,0 +1,12 @@
+Head:
+-----
+Hat
+Head
+Lashes
+Eyes
+Cheeks
+Mouth
+
+Base:
+-----
+Robe
