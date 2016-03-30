@@ -8,6 +8,9 @@ MY_Palette::MY_Palette(BulletWorld * _world, Shader * _shader):
 	name("")
 {
 	std::vector<TriMesh *> & meshes = MY_ResourceManager::globalAssets->getMesh("palette")->meshes;
+	for(auto m : meshes){
+		m->setScaleMode(GL_NEAREST);
+	}
 
 	base = new MeshEntity(meshes.at(0), _shader);
 

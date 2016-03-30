@@ -17,6 +17,8 @@ public:
 		* lashes,
 		* hat;
 
+	std::map<std::string, MeshInterface *> meshPieces;
+
 	Camera * playerCam;
 
 	MY_Avatar(Shader * _shader, Camera * _playerCam);

@@ -140,10 +140,23 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	childTransform->addChild(palette);
 	palette->translateComponents(glm::vec3(0, 3, 2));
 
-	paletteDefs.push_back(new MY_Palette_Definition("eyeshadow", MY_ResourceManager::globalAssets->getTexture("eyeshadow")->texture));
-	paletteDefs.push_back(new MY_Palette_Definition("lipstick", MY_ResourceManager::globalAssets->getTexture("lipstick")->texture));
+	
 
-	loadNextPalette();
+	// parse palettes
+	{
+		Json::Reader reader;
+		Json::Value json;
+		bool parsingSuccessful;
+	
+		parsingSuccessful = reader.parse(sweet::FileUtils::readFile("assets/palettes.json"), json);
+
+		assert(parsingSuccessful);
+
+		for(Json::Value::ArrayIndex i = 0; i < json["palettes"].size(); ++i){
+			paletteDefs.push_back(new MY_Palette_Definition(json["palettes"][i].get("name", "NO_NAME").asString(), MY_ResourceManager::globalAssets->getTexture(json["palettes"][i].get("texture", "DEFAULT").asString())->texture));
+		}
+	}
+
 
 	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
 	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
@@ -199,6 +212,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	// start the experience
 	getNextTrack();
+	loadNextPalette();
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -332,7 +346,10 @@ void MY_Scene_Main::loadNextPalette(){
 
 void MY_Scene_Main::makeSelection(){
 	selections.push_back(currentHoverTarget->texture);
-	//ryan->mesh->pushTexture2D(currentHoverTarget->texture);
+
+	// update the avatar mesh piece with the id "data" to the texture "data"+"target"
+	avatar->meshPieces[tracks->tracks.at(currentTrackId).data]->replaceTextures(MY_ResourceManager::globalAssets->getTexture(currentHoverTarget->name)->texture);
+
 	sweet::Event * e = new sweet::Event("selectionMade");
 	e->setStringData("selection", currentHoverTarget->name); // the selection
 	e->setStringData("type", palette->name); // sounds/generic animations for types of makeup? I don't know, powder?

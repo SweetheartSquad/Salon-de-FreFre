@@ -6,45 +6,30 @@
   		"type": "mesh",
   		"src": "palette.obj"
   	},
-  	{
-  		"id": "palette",
-  		"type": "texture",
-  		"src": "palette.png"
-  	},
 	{
   		"id": "eyeshadow",
   		"type": "texture",
-  		"src": "eyeshadow.png"
+  		"src": "palettes/eyeshadow.png",
+      "generateMipmaps": false
   	},
-	{
-  		"id": "lipstick",
-  		"type": "texture",
-  		"src": "lipstick.png"
-  	},
-
-	// EYE SHADOW
-	{
-  		"id": "eyeshadow_1",
-  		"type": "texture",
-  		"src": "eyeshadow/1.png"
-  	},
-	{
-  		"id": "eyeshadow_2",
-  		"type": "texture",
-  		"src": "eyeshadow/2.png"
-  	},
-	{
-  		"id": "eyeshadow_3",
-  		"type": "texture",
-  		"src": "eyeshadow/3.png"
-  	},
-
-	// LIPSTICK
-	{
-  		"id": "lipstick_1",
-  		"type": "texture",
-  		"src": "lipstick/1.png"
-  	},
+  {
+      "id": "lipstick",
+      "type": "texture",
+      "src": "palettes/lipstick.png",
+      "generateMipmaps": false
+    },
+  {
+      "id": "blush",
+      "type": "texture",
+      "src": "palettes/blush.png",
+      "generateMipmaps": false
+    },
+  {
+      "id": "eyeliner",
+      "type": "texture",
+      "src": "palettes/eyeliner.png",
+      "generateMipmaps": false
+    },
 
   	// CHAIR
   	{

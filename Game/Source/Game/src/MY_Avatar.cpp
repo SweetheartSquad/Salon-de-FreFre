@@ -36,6 +36,11 @@ MY_Avatar::MY_Avatar(Shader * _shader, Camera * _playerCam) :
 	head->childTransform->addChild(lashes);
 	head->childTransform->addChild(cheeks);
 	head->childTransform->addChild(lips);
+
+	meshPieces["blush"] = cheeks->mesh;
+	meshPieces["eyeshadow"] = eyes->mesh;
+	meshPieces["eyeliner"] = lashes->mesh;
+	meshPieces["lipstick"] = lips->mesh;
 }
 
 MY_Avatar::~MY_Avatar(){

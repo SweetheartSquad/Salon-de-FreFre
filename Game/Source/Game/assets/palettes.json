@@ -1,18 +1,20 @@
-"palettes": [
-	{
-		"name": "Eye Shadow",
-		"texture": "eyeshadow"
-	},
-	{
-		"name": "Lipstick",
-		"texture": "lipstick"
-	}/*,
-	{
-		"name": "Mascara",
-		"texture": "mascara"
-	},
-	{
-		"name": "Blush",
-		"texture": "blush"
-	}*/
-]
+{
+	"palettes": [
+		{
+			"name": "blush",
+			"texture": "blush"
+		},
+		{
+			"name": "eyeshadow",
+			"texture": "eyeshadow"
+		},
+		{
+			"name": "eyeliner",
+			"texture": "eyeliner"
+		},
+		{
+			"name": "lipstick",
+			"texture": "lipstick"
+		}
+	]
+}
