@@ -15,6 +15,7 @@
 class StereoCamera;
 class Tracks;
 class MY_Avatar;
+class ShaderComponentBlur;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
@@ -46,6 +47,7 @@ public:
 
 
 	ComponentShaderBase * mirrorShader;
+	ShaderComponentBlur * mirrorBlur;
 
 
 	StereoCamera * vrCam;

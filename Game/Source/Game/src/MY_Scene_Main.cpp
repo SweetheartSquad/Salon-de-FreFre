@@ -7,6 +7,7 @@
 #include <CubeMap.h>
 #include <Sprite.h>
 #include <ShaderComponentCircularMask.h>
+#include <ShaderComponentBlur.h>
 #include <shader/ShaderComponentTexture.h>
 #include <Resource.h>
 #include <VerticalLinearLayout.h>
@@ -54,6 +55,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	mirrorShader->addComponent(new ShaderComponentMVP(mirrorShader));
 	mirrorShader->addComponent(new ShaderComponentTexture(mirrorShader, 0.1f));
+	mirrorShader->addComponent(mirrorBlur = new ShaderComponentBlur(mirrorShader));
 	mirrorShader->compileShader();
 	mirrorShader->incrementReferenceCount();
 
@@ -391,6 +393,7 @@ void MY_Scene_Main::getNextTrack(){
 		}
 
 		++currentTrackId;
+		mirrorBlur->blurAmount = (float)currentTrackId / tracks->tracks.size();
 		currentTrack = MY_ResourceManager::globalAssets->getAudio(tracks->tracks.at(currentTrackId).audioTrack)->sound;
 	
 		// add the new track to the scene and play it

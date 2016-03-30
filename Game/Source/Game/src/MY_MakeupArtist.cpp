@@ -105,7 +105,7 @@ void MY_MakeupArtist::update(Step * _step){
 
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
 		float newAngle = points[currentPointIdx].x;
-		float newRadius = glm::max(points[currentPointIdx].y, 0.95f);
+		float newRadius = glm::max(points[currentPointIdx].y*1.25f, 0.95f);
 		
 		// stand off to the side when waiting
 		if(paused){
