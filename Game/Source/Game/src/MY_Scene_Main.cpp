@@ -233,7 +233,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 
 		
 		// keep our screen framebuffer up-to-date with the game's viewport
-		screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
+		screenFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 
 		// bind our screen framebuffer
 		FrameBufferInterface::pushFbo(screenFBO);
