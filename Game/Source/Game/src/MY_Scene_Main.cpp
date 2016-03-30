@@ -351,6 +351,10 @@ void MY_Scene_Main::makeSelection(){
 
 	// update the avatar mesh piece with the id "data" to the texture "data"+"target"
 	avatar->meshPieces[tracks->tracks.at(currentTrackId).data]->replaceTextures(MY_ResourceManager::globalAssets->getTexture(currentHoverTarget->name)->texture);
+	if (tracks->tracks.at(currentTrackId).data == "eyeliner"){
+		avatar->lashes->setVisible(true);
+		avatar->liner->setVisible(true);
+	}
 
 	sweet::Event * e = new sweet::Event("selectionMade");
 	e->setStringData("selection", currentHoverTarget->name); // the selection

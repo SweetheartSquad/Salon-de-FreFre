@@ -30,6 +30,12 @@
       "src": "palettes/eyeliner.png",
       "generateMipmaps": false
     },
+  {
+      "id": "mascara",
+      "type": "texture",
+      "src": "palettes/mascara.png",
+      "generateMipmaps": true
+    },
 
   	// CHAIR
   	{

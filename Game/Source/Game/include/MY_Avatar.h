@@ -13,8 +13,9 @@ public:
 		* head,
 		* eyes,
 		* cheeks,
-		* lips,
-		* lashes,
+		*lips,
+		*lashes,
+		*liner,
 		* hat;
 
 	std::map<std::string, MeshInterface *> meshPieces;
