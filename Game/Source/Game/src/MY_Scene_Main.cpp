@@ -237,6 +237,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 
 		activeCamera = mirrorCamera;
 		avatar->head->setVisible(true);
+		uiLayer->setVisible(false);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 
 		activeCamera = c;
@@ -254,6 +255,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		FrameBufferInterface::pushFbo(screenFBO);
 		// render the scene
 		avatar->head->setVisible(false);
+		uiLayer->setVisible(true);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 		// unbind our screen framebuffer, rebinding the previously bound framebuffer
 		// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
