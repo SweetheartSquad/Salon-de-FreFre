@@ -50,12 +50,16 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 
 	torso->firstParent()->translate(glm::vec3(0, 1.672, 0));
 	head->firstParent()->translate(glm::vec3(0, 1.765, -0.018));
-	handR->firstParent()->translate(glm::vec3(-0.803, 0.561, 0));
-	handL->firstParent()->translate(glm::vec3(0.803, 0.561, 0))->scale(glm::vec3(-1,1,1));
+	handR->firstParent()->translate(glm::vec3(-0.403, 1.6, 0.8));
+	handL->firstParent()->translate(glm::vec3(0.403, 1.6, 0.8));
+	handL->meshTransform->scale(glm::vec3(-1, 1, 1));
+
 	footR->firstParent()->translate(glm::vec3(-0.262, -1.446, -0.216));
-	footL->firstParent()->translate(glm::vec3(0.262, -1.446, -0.216))->scale(glm::vec3(-1,1,1));
+	footL->firstParent()->translate(glm::vec3(0.262, -1.446, -0.216));
+	footL->meshTransform->scale(glm::vec3(-1, 1, 1));
 	eyeR->firstParent()->translate(glm::vec3(-0.277, 0.774, 0.44));
-	eyeL->firstParent()->translate(glm::vec3(0.277, 0.774, 0.44))->scale(glm::vec3(-1,1,1));
+	eyeL->firstParent()->translate(glm::vec3(0.277, 0.774, 0.44));
+	eyeL->meshTransform->scale(glm::vec3(-1,1,1));
 
 	// blink
 	blink = 1;
@@ -88,6 +92,15 @@ void MY_MakeupArtist::update(Step * _step){
 	childTransform->scale(glm::vec3(1, breathe, 1), false);
 	eyeR->childTransform->scale(glm::vec3(1, blink, 1), false);
 	eyeL->childTransform->scale(glm::vec3(1, blink, 1), false);
+
+	if (paused){
+		handR->childTransform->translate((glm::vec3(-0.5f, 0, -0.5f) - handR->childTransform->getTranslationVector()) * 0.05f);
+		handL->childTransform->translate((glm::vec3(0.5f, 0, -0.5f) - handL->childTransform->getTranslationVector()) * 0.05f);
+	}else{
+		float r = glm::sin(_step->time*2.5f)*0.1f;
+		handR->childTransform->translate(glm::vec3(glm::cos(_step->time * 5)*0.25, glm::sin(_step->time * 5)*0.25, r), false);
+		handL->childTransform->translate(glm::vec3(glm::sin(-_step->time * 5)*0.25, glm::cos(-_step->time * 5)*0.25, -r), false);
+	}
 
 
 	if(firstParent() != nullptr && currentPointIdx < points.size()) {
