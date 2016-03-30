@@ -44,6 +44,10 @@ public:
 	ComponentShaderBase * indicatorShader; 
 	ShaderComponentCircularMask * maskComponentIndicator;
 
+
+	ComponentShaderBase * mirrorShader;
+
+
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
 

@@ -24,6 +24,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	bulletDebugDrawer(new BulletDebugDrawer(bulletWorld->world)),
 	indicatorShader(new ComponentShaderBase(true)),
 	maskComponentIndicator(nullptr),
+	mirrorShader(new ComponentShaderBase(true)),
 	vrCam(new StereoCamera()),
 
 
@@ -49,6 +50,12 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	maskComponentIndicator = new ShaderComponentCircularMask(indicatorShader, 0.1);
 	indicatorShader->addComponent(maskComponentIndicator);
 	indicatorShader->compileShader();
+	indicatorShader->incrementReferenceCount();
+
+	mirrorShader->addComponent(new ShaderComponentMVP(mirrorShader));
+	mirrorShader->addComponent(new ShaderComponentTexture(mirrorShader, 0.1f));
+	mirrorShader->compileShader();
+	mirrorShader->incrementReferenceCount();
 
 	// Setup the debug drawer and add it to the scene
 	bulletWorld->world->setDebugDrawer(bulletDebugDrawer);
@@ -194,7 +201,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorFBO = new StandardFrameBuffer(true);
 	mirrorTex = new FBOTexture(mirrorFBO, true, 0, false);
 	mirrorTex->load();
-	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), baseShader);
+	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), mirrorShader);
 	mirrorSurface->mesh->setScaleMode(GL_LINEAR);
 	mirrorSurface->mesh->uvEdgeMode = GL_CLAMP_TO_EDGE;
 	mirrorSurface->mesh->pushTexture2D(mirrorTex);
@@ -225,6 +232,9 @@ MY_Scene_Main::~MY_Scene_Main(){
 	screenSurfaceShader->decrementAndDelete();
 	screenFBO->decrementAndDelete();
 	mirrorFBO->decrementAndDelete();
+
+	indicatorShader->decrementAndDelete();
+	mirrorShader->decrementAndDelete();
 
 	delete eventManager;
 	delete bulletWorld;
