@@ -314,8 +314,8 @@ void MY_Scene_Main::update(Step * _step){
 	NodeOpenAL::setListener(vrCam, true);
 
 	// update the orientation of the artist
-	glm::vec3 d = activeCamera->childTransform->getWorldPos() - artist->childTransform->getWorldPos();
-	artist->childTransform->setOrientation(glm::angleAxis(glm::degrees(atan2(d.x, d.z)), glm::vec3(0,1,0)));
+	float d = artist->head->childTransform->getWorldPos().y - artist->childTransform->getWorldPos().y;
+	artist->childTransform->lookAt(activeCamera->childTransform->getWorldPos() - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.1f);
 	artist->paused = waitingForInput;
 
 	// update the physics bodies
