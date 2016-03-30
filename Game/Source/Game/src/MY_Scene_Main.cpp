@@ -192,11 +192,13 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorCamera->firstParent()->translate(0, 5, 5, false);
 
 	mirrorFBO = new StandardFrameBuffer(true);
-	mirrorTex = new FBOTexture(mirrorFBO, true, 0, true);
+	mirrorTex = new FBOTexture(mirrorFBO, true, 0, false);
 	mirrorTex->load();
 	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), baseShader);
-	childTransform->addChild(mirrorSurface)->translate(0, 5, 5, false)->scale(glm::vec3(16,-9,1));
+	mirrorSurface->mesh->setScaleMode(GL_LINEAR);
+	mirrorSurface->mesh->uvEdgeMode = GL_CLAMP_TO_EDGE;
 	mirrorSurface->mesh->pushTexture2D(mirrorTex);
+	childTransform->addChild(mirrorSurface)->translate(0, 5, 5, false)->scale(glm::vec3(16,-9,1));
 	mirrorFBO->incrementReferenceCount();
 
 
@@ -232,6 +234,8 @@ MY_Scene_Main::~MY_Scene_Main(){
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
 	// render the mirror texture
 	{
+		_renderOptions->setViewPort(0, 0, 1600, 900);
+		mirrorFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 		FrameBufferInterface::pushFbo(mirrorFBO);
 		Camera * c = activeCamera;
 
@@ -242,6 +246,8 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 
 		activeCamera = c;
 		FrameBufferInterface::popFbo();
+		// update the mirror texture
+		mirrorTex->refresh();
 	}
 
 	// render the scene
@@ -249,6 +255,8 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 
 		
 		// keep our screen framebuffer up-to-date with the game's viewport
+		glm::uvec2 sd = sweet::getWindowDimensions();
+		_renderOptions->setViewPort(0, 0, sd.x, sd.y);
 		screenFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 
 		// bind our screen framebuffer
@@ -332,9 +340,6 @@ void MY_Scene_Main::update(Step * _step){
 	// (it's important to do this after the scene update, because we're overriding attributes which the camera typically handles on its own)
 	mirrorCamera->forwardVectorRotated = glm::reflect(activeCamera->forwardVectorRotated, glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
 	mirrorCamera->lookAtSpot = mirrorCamera->lookFromSpot + mirrorCamera->forwardVectorRotated;
-	// update the mirror texture
-	mirrorTex->refresh();
-	mirrorTex->bufferData();
 }
 
 void MY_Scene_Main::loadNextPalette(){
