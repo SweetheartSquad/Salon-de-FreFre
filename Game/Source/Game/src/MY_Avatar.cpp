@@ -21,7 +21,7 @@ MY_Avatar::MY_Avatar(Shader * _shader, Camera * _playerCam) :
 	lips = new MeshEntity(meshes.at(6), _shader);
 
 	hat->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("fabric")->texture); 
-	base->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("mascara")->texture);
+	//base->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("mascara")->texture);
 	head->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	lashes->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("mascara")->texture);
 	liner->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
