@@ -23,19 +23,19 @@ int main(void){
 	_CrtMemState s1;
 	_CrtMemCheckpoint( &s1 );
 #else
-int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){	
+int __stdcall WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){	
 #endif
 
 	Log::THROW_ON_ERROR = true;
 
 	sweet::initialize("Game"); // initialize engine (argument is application title)
 
-	//OpenAL_Sound::masterGain = 0; // mute
-	//sweet::NumberUtils::seed(time(nullptr)); // seed RNG
+#ifdef _DEBUG
+	Node::nodeCounting = true; // uncomment this if you're checking for memory leaks and stuff (it's really slow so don't do it if you don't need it)
+#endif
 
 	// load resources
-	MY_ResourceManager::init();
-	MY_ResourceManager::load();
+	MY_ResourceManager * resources = new MY_ResourceManager();
 
 	// create and initialize game
 	MY_Game * game = new MY_Game();
@@ -49,16 +49,12 @@ int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 	// deallocate resources
 	delete game;
 	game = nullptr;
-	MY_ResourceManager::destruct();
-#ifdef _DEBUG
-	std::cout << "Final node count: " << Node::nodes.size() << std::endl;
-
-	for(auto n : Node::nodes){
-		std::cout << typeid(*n).name() << " " << n << std::endl;
-	}
-#endif
-
+	delete resources;
+	resources = nullptr;
+	
 	sweet::destruct();
+	sweet::printNodes();
+
 	
 #ifdef _DEBUG
 	_CrtMemDumpAllObjectsSince(&s1);

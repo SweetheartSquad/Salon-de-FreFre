@@ -5,13 +5,6 @@
 #include <MY_ResourceManager.h>
 
 #include <MY_Scene_Menu.h>
-#include <MY_Scene_Box2D.h>
-#include <MY_Scene_Bullet3D.h>
-#include <MY_Scene_SurfaceShaders.h>
-#include <MY_Scene_ScreenShaders.h>
-#include <MY_Scene_VR.h>
-#include <MY_Scene_Main.h>
-#include <MY_Scene_Path.h>
 
 
 MY_Game::MY_Game() :
@@ -22,13 +15,7 @@ MY_Game::MY_Game() :
 	// however, they will be created at the same time as the game, so any load times associated with
 	// their creation will be front-loaded. To avoid this, you can check to see if a scene exists immediately
 	// before switching to it, and create it then if needed.
-	scenes["box2d"] = new MY_Scene_Box2D(this);
-	scenes["bullet3d"] = new MY_Scene_Bullet3D(this);
-	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
-	scenes["screenshaders"] = new MY_Scene_ScreenShaders(this);
-	scenes["surfaceshaders"] = new MY_Scene_SurfaceShaders(this);
 	//scenes["vr"] = new MY_Scene_VR(this);
-	scenes["path"] = new MY_Scene_Path(this);
 }
 
 MY_Game::~MY_Game(){}

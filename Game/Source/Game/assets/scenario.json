@@ -6,57 +6,257 @@
   		"type": "mesh",
   		"src": "palette.obj"
   	},
-  	{
-  		"id": "palette",
-  		"type": "texture",
-  		"src": "palette.png"
-  	},
 	{
   		"id": "eyeshadow",
   		"type": "texture",
-  		"src": "eyeshadow.png"
+  		"src": "palettes/eyeshadow.png",
+      "generateMipmaps": false
   	},
-	{
-  		"id": "lipstick",
-  		"type": "texture",
-  		"src": "lipstick.png"
-  	},
+  {
+      "id": "lipstick",
+      "type": "texture",
+      "src": "palettes/lipstick.png",
+      "generateMipmaps": false
+    },
+  {
+      "id": "blush",
+      "type": "texture",
+      "src": "palettes/blush.png",
+      "generateMipmaps": false
+    },
+  {
+      "id": "eyeliner",
+      "type": "texture",
+      "src": "palettes/eyeliner.png",
+      "generateMipmaps": false
+    },
 
-	// EYE SHADOW
-	{
-  		"id": "eyeshadow_1",
-  		"type": "texture",
-  		"src": "eyeshadow/1.png"
-  	},
-	{
-  		"id": "eyeshadow_2",
-  		"type": "texture",
-  		"src": "eyeshadow/2.png"
-  	},
-	{
-  		"id": "eyeshadow_3",
-  		"type": "texture",
-  		"src": "eyeshadow/3.png"
-  	},
-
-	// LIPSTICK
-	{
-  		"id": "lipstick_1",
-  		"type": "texture",
-  		"src": "lipstick/1.png"
-  	},
+  // AVATAR TEXTURES
+  {
+      "id": "mascara",
+      "type": "texture",
+      "src": "ryan/mascara.png",
+      "generateMipmaps": false
+    },{
+      "id": "blush_0",
+      "type": "texture",
+      "src": "ryan/blush_0.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_1",
+      "type": "texture",
+      "src": "ryan/blush_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_2",
+      "type": "texture",
+      "src": "ryan/blush_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_3",
+      "type": "texture",
+      "src": "ryan/blush_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_4",
+      "type": "texture",
+      "src": "ryan/blush_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "blush_5",
+      "type": "texture",
+      "src": "ryan/blush_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_0",
+      "type": "texture",
+      "src": "ryan/lipstick_0.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_1",
+      "type": "texture",
+      "src": "ryan/lipstick_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_2",
+      "type": "texture",
+      "src": "ryan/lipstick_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_3",
+      "type": "texture",
+      "src": "ryan/lipstick_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_4",
+      "type": "texture",
+      "src": "ryan/lipstick_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "lipstick_5",
+      "type": "texture",
+      "src": "ryan/lipstick_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_0",
+      "type": "texture",
+      "src": "ryan/eyeshadow_0.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_1",
+      "type": "texture",
+      "src": "ryan/eyeshadow_1.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_2",
+      "type": "texture",
+      "src": "ryan/eyeshadow_2.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_3",
+      "type": "texture",
+      "src": "ryan/eyeshadow_3.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_4",
+      "type": "texture",
+      "src": "ryan/eyeshadow_4.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeshadow_5",
+      "type": "texture",
+      "src": "ryan/eyeshadow_5.jpg",
+      "generateMipmaps": true
+    },{
+      "id": "eyeliner_0",
+      "type": "texture",
+      "src": "ryan/eyeliner_0.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_1",
+      "type": "texture",
+      "src": "ryan/eyeliner_1.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_2",
+      "type": "texture",
+      "src": "ryan/eyeliner_2.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_3",
+      "type": "texture",
+      "src": "ryan/eyeliner_3.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_4",
+      "type": "texture",
+      "src": "ryan/eyeliner_4.jpg",
+      "generateMipmaps": false
+    },{
+      "id": "eyeliner_5",
+      "type": "texture",
+      "src": "ryan/eyeliner_5.jpg",
+      "generateMipmaps": false
+    },
 
   	// CHAIR
   	{
   		"id": "chair",
   		"type": "mesh",
-  		"src": "chair.obj"
+  		"src": "salon/chair.obj"
   	},
   	{
   		"id": "chair",
   		"type": "texture",
-  		"src": "chair.png"
+  		"src": "chair.png",
+      "generateMipmaps": false
   	},
+
+    // AVATAR
+    {
+      "id": "avatarBase",
+      "type": "mesh",
+      "src": "AvatarBase.obj"
+    },
+    {
+      "id": "avatarHead",
+      "type": "mesh",
+      "src": "AvatarHead.obj"
+    },
+    {
+      "id": "fabric",
+      "type": "texture",
+      "src": "ryan/fabric.jpg",
+      "generateMipmaps": true
+    },
+    {
+      "id": "original",
+      "type": "texture",
+      "src": "ryan/original.jpg",
+      "generateMipmaps": true
+    },
+
+    // PLACE
+    {
+      "id": "salon-environment",
+      "type": "mesh",
+      "src": "salon/environment.obj"
+    },
+    {
+      "id": "salon-props",
+      "type": "mesh",
+      "src": "salon/props.obj"
+    },
+    {
+      "id": "salon-mirror",
+      "type": "mesh",
+      "src": "salon/mirror.obj"
+    },
+    {
+      "id": "salon-floor",
+      "type": "texture",
+      "src": "floorUV.png"
+    },
+    {
+      "id": "salon-walls",
+      "type": "texture",
+      "src": "wallUV.png"
+    },
+    {
+      "id": "salon-ceiling",
+      "type": "texture",
+      "src": "ceiling.png"
+    },
+    {
+      "id": "salon-storefront",
+      "type": "texture",
+      "src": "frontFaceUV.png"
+    },
+    {
+      "id": "salon-door",
+      "type": "texture",
+      "src": "doorUV.png"
+    },
+    {
+      "id": "salon-windows",
+      "type": "texture",
+      "src": "windowUV.png"
+    },
+    {
+      "id": "salon-road",
+      "type": "texture",
+      "src": "floorUV.png"
+    },
+    {
+      "id": "salon-buildings",
+      "type": "texture",
+      "src": "buildings.png"
+    },
+    {
+      "id": "salon-sidewalk",
+      "type": "texture",
+      "src": "sidewalk_Texture.png"
+    },
 
   	// ARTIST
     {

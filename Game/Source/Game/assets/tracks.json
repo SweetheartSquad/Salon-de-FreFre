@@ -1,0 +1,59 @@
+{
+	"tracks":[
+		{
+			"audio": "track1",
+			"needsInput": false,
+			"data": null
+		},
+		{
+			"audio": "track2",
+			"needsInput": false,
+			"data": null
+		},
+		{
+			"audio": "track3",
+			"needsInput": false,
+			"data": null
+		},
+		{
+			"audio": "track4",
+			"needsInput": false,
+			"data": "foundation"
+		},
+		{
+			"audio": "track5",
+			"needsInput": false,
+			"data": null
+		},
+		{
+			"audio": "track6",
+			"needsInput": true,
+			"data": "blush"
+		},
+		{
+			"audio": "track7",
+			"needsInput": true,
+			"data": "eyeshadow"
+		},
+		{
+			"audio": "track8",
+			"needsInput": true,
+			"data": "eyeliner"
+		},
+		{
+			"audio": "track9",
+			"needsInput": false,
+			"data": null
+		},
+		{
+			"audio": "track10",
+			"needsInput": true,
+			"data": "lipstick"
+		},
+		{
+			"audio": "track11",
+			"needsInput": false,
+			"data": null
+		}
+	]
+}

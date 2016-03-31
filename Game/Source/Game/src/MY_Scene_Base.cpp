@@ -31,10 +31,10 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 {
 	baseShader->addComponent(new ShaderComponentMVP(baseShader));
 	//baseShader->addComponent(new ShaderComponentDiffuse(baseShader));
-	baseShader->addComponent(new ShaderComponentTexture(baseShader));
+	baseShader->addComponent(new ShaderComponentTexture(baseShader, 0.1f));
 	baseShader->compileShader();
 
-	textShader->textComponent->setColor(glm::vec3(0.0f, 0.0f, 0.0f));
+	textShader->textComponent->setColor(glm::vec4(0,0,0, 255.f));
 
 	// Set up debug camera
 	cameras.push_back(debugCam); // Add it to the cameras list (this isn't strictly necessary, but is useful organizational and debugging purposes)
@@ -49,8 +49,8 @@ MY_Scene_Base::MY_Scene_Base(Game * _game) :
 	
 
 	// reference counting for member variables
-	++baseShader->referenceCount;
-	++textShader->referenceCount;
+	baseShader->incrementReferenceCount();
+	textShader->incrementReferenceCount();
 }
 
 MY_Scene_Base::~MY_Scene_Base(){
@@ -73,7 +73,7 @@ void MY_Scene_Base::update(Step * _step){
 		// if the user hits escape on the menu, exit the game
 		// if the user hits escape anywhere else, take them to the menu
 		if(game->scenes["menu"] == this){
-			game->exit();
+			//game->exit();
 		}else{
 			game->switchScene("menu", false);
 		}

@@ -5,6 +5,7 @@
 #include <sweet/UI.h>
 
 #include <MY_Scene_Main.h>
+#include <MY_Scene_Path.h>
 
 MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	MY_Scene_Base(_game)
@@ -19,81 +20,44 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	layout->setRationalWidth(1.f, uiLayer);
 
 	// Create some text labels
-	TextLabel * label1 = new TextLabel(uiLayer->world, font, textShader);
-	TextLabel * label2 = new TextLabel(uiLayer->world, font, textShader);
-	TextLabel * label3 = new TextLabel(uiLayer->world, font, textShader);
-	TextLabel * label4 = new TextLabel(uiLayer->world, font, textShader);
-	TextLabel * label5 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label6 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label7 = new TextLabel(uiLayer->world, font, textShader);
 	TextLabel * label8 = new TextLabel(uiLayer->world, font, textShader);
 
 	// set the text on the labels
-	label1->setText("Box2D Test Scene");
-	label2->setText("Bullet3D Test Scene");
-	label3->setText("Surface Shader Test Scene");
-	label4->setText("Screen Shader Test Scene");
-	label5->setText("VR Test Scene");
 	label6->setText("Quit Game");
 	label7->setText("Play Game");
 	label8->setText("Path Thing");
 
 	// make the labels' background visible (by default both the scene's clear colour and the text colour will be black)
-	label1->setBackgroundColour(1,1,1,1);
-	label2->setBackgroundColour(1,1,1,1);
-	label3->setBackgroundColour(1,1,1,1);
-	label4->setBackgroundColour(1,1,1,1);
-	label5->setBackgroundColour(1,1,1,1);
 	label6->setBackgroundColour(1,1,1,1);
 	label7->setBackgroundColour(1,1,1,1);
 	label8->setBackgroundColour(1,1,1,1);
 
 	// make the labels clickable
-	label1->setMouseEnabled(true);
-	label2->setMouseEnabled(true);
-	label3->setMouseEnabled(true);
-	label4->setMouseEnabled(true);
-	label5->setMouseEnabled(true);
 	label6->setMouseEnabled(true);
 	label7->setMouseEnabled(true);
 	label8->setMouseEnabled(true);
 
 	// add listeners to each label, making them buttons that take the player to different scenes
-	label1->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("box2d", false);
-	});
-	label2->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("bullet3d", false);
-	});
-	label3->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("surfaceshaders", false);
-	});
-	label4->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("screenshaders", false);
-	});
-	label5->eventManager.addEventListener("click", [&](sweet::Event * _event){
-		game->switchScene("vr", false);
-	});
-	label6->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label6->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		game->exit();
 	});
-	label7->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label7->eventManager->addEventListener("click", [&](sweet::Event * _event){
 		if(game->scenes.count("main") == 0){
 			game->scenes["main"] = new MY_Scene_Main(game);
 		}
 		game->switchScene("main", false);
 	});
-	label8->eventManager.addEventListener("click", [&](sweet::Event * _event){
+	label8->eventManager->addEventListener("click", [&](sweet::Event * _event){
+		if(game->scenes.count("path") == 0){
+			game->scenes["path"] = new MY_Scene_Path(game);
+		}
 		game->switchScene("path", false);
 	});
 
 
 	// add the labels to the layout
-	layout->addChild(label1);
-	layout->addChild(label2);
-	layout->addChild(label3);
-	layout->addChild(label4);
-	layout->addChild(label5);
 	layout->addChild(label6);
 	layout->addChild(label7);
 	layout->addChild(label8);

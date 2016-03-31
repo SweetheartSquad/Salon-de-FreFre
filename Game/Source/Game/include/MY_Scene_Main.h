@@ -6,7 +6,6 @@
 #include <MY_MakeupArtist.h>
 #include <MY_Palette.h>
 
-#include <MY_Scene_ScreenShaders.h>
 #include <RenderSurface.h>
 #include <StandardFrameBuffer.h>
 #include <FBOTexture.h>
@@ -14,14 +13,21 @@
 #include <MY_Palette_Definition.h>
 
 class StereoCamera;
+class Tracks;
+class MY_Avatar;
+class ShaderComponentBlur;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
 	Shader * screenSurfaceShader;
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
+	NodeUI * fade;
+	bool done;
 
-	sweet::EventManager eventManager;
+	sweet::EventManager * eventManager;
+
+	Tracks * tracks;
 
 	// The scene's physics world
 	BulletWorld * bulletWorld;
@@ -30,7 +36,7 @@ public:
 
 
 	// ID of the currently playing audio track
-	unsigned long int currentTrackId;
+	signed long int currentTrackId;
 	// currently playing audio track
 	OpenAL_Sound * currentTrack;
 	// increments currentTrackId and replaces the current track with the one located at the new ID
@@ -41,6 +47,11 @@ public:
 	ComponentShaderBase * indicatorShader; 
 	ShaderComponentCircularMask * maskComponentIndicator;
 
+
+	ComponentShaderBase * mirrorShader;
+	ShaderComponentBlur * mirrorBlur;
+
+
 	StereoCamera * vrCam;
 	MY_MakeupArtist * artist;
 
@@ -48,8 +59,6 @@ public:
 
 	int paletteDefIdx;
 	std::vector<MY_Palette_Definition *> paletteDefs;
-
-	UILayer uiLayer;
 	
 	MY_Scene_Main(Game * _game);
 	~MY_Scene_Main();
@@ -79,6 +88,6 @@ public:
 	StandardFrameBuffer * mirrorFBO;
 	FBOTexture * mirrorTex;
 	MeshEntity * mirrorSurface;
-
-	MeshEntity * ryan;
+	
+	MY_Avatar * avatar;
 };

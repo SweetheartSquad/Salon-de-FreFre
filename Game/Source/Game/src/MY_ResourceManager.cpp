@@ -4,7 +4,14 @@
 
 Scenario * MY_ResourceManager::globalAssets = nullptr;
 
-void MY_ResourceManager::init(){
+MY_ResourceManager::MY_ResourceManager(){
 	globalAssets = new Scenario("assets/scenario.json");
 	resources.push_back(globalAssets);
+
+	load();
+}
+
+MY_ResourceManager::~MY_ResourceManager(){
+	unload();
+	destruct();
 }
