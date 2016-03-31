@@ -263,7 +263,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 	_renderOptions->setClearColour(0.8, 0.2, 1, 1);
 	// render the mirror texture
 	{
-		_renderOptions->setViewPort(0, 0, 512, 512);
+		_renderOptions->setViewPort(0, 0, 1024, 1024);
 		mirrorFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 		FrameBufferInterface::pushFbo(mirrorFBO);
 		Camera * c = activeCamera;
