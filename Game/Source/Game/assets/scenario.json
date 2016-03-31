@@ -163,7 +163,7 @@
   	{
   		"id": "chair",
   		"type": "mesh",
-  		"src": "chair.obj"
+  		"src": "salon/chair.obj"
   	},
   	{
   		"id": "chair",
