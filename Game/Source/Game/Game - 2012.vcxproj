@@ -23,6 +23,7 @@
     <ClCompile Include="src\MY_Scene_Menu.cpp" />
     <ClCompile Include="src\MY_Scene_Path.cpp" />
     <ClCompile Include="src\MY_Scene_VR.cpp" />
+    <ClCompile Include="src\ShaderComponentBlur.cpp" />
     <ClCompile Include="src\ShaderComponentCircularMask.cpp" />
     <ClCompile Include="src\MY_SelectionTarget.cpp" />
     <ClCompile Include="src\Tracks.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="include\MY_Scene_Menu.h" />
     <ClInclude Include="include\MY_Scene_Path.h" />
     <ClInclude Include="include\MY_Scene_VR.h" />
+    <ClInclude Include="include\ShaderComponentBlur.h" />
     <ClInclude Include="include\ShaderComponentCircularMask.h" />
     <ClInclude Include="include\MY_SelectionTarget.h" />
     <ClInclude Include="include\Tracks.h" />
