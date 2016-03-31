@@ -43,7 +43,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	hoverTime(0),
 	targetHoverTime(1.f),
 
-	eventManager(new sweet::EventManager())
+	eventManager(new sweet::EventManager()),
+	done(false)
 {
 
 	indicatorShader->addComponent(new ShaderComponentMVP(indicatorShader));	
@@ -240,6 +241,24 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	// start the experience
 	getNextTrack();
 	loadNextPalette();
+
+
+
+	fade = new NodeUI(uiLayer->world);
+	uiLayer->addChild(fade);
+	fade->setRationalHeight(1.f, uiLayer);
+	fade->setRationalWidth(1.f, uiLayer);
+	fade->setBackgroundColour(0,0,0,1);
+
+	Timeout * fadeIn = new Timeout(1.f, [this](sweet::Event * _event){
+		fade->setVisible(false);
+	});
+	fadeIn->eventManager->addEventListener("progress", [this](sweet::Event * _event){
+		float p = _event->getFloatData("progress");
+		fade->setBackgroundColour(0,0,0,1.f-p);
+	});
+	fadeIn->start();
+	childTransform->addChild(fadeIn, false);
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -423,7 +442,10 @@ void MY_Scene_Main::getNextTrack(){
 		waitingForInput = false;
 		currentHoverTarget = nullptr;
 		hoverTime = 0;
+	}else if(!done){
+		done = true;
 	}
+	artist->paused = true;
 }
 
 

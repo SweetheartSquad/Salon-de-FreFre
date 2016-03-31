@@ -22,6 +22,8 @@ public:
 	Shader * screenSurfaceShader;
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
+	NodeUI * fade;
+	bool done;
 
 	sweet::EventManager * eventManager;
 
