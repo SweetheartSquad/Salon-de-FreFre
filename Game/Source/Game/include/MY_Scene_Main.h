@@ -25,6 +25,8 @@ public:
 	NodeUI * fade;
 	bool done;
 
+	float startTime;
+
 	sweet::EventManager * eventManager;
 
 	Tracks * tracks;

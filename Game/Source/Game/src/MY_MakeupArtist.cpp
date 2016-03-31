@@ -48,8 +48,8 @@ MY_MakeupArtist::MY_MakeupArtist(Shader * _shader, std::vector<glm::vec2> _point
 	head->childTransform->addChild(eyeR);
 	head->childTransform->addChild(eyeL);
 
-	torso->firstParent()->translate(glm::vec3(0, 1.672, 0));
-	head->firstParent()->translate(glm::vec3(0, 1.765, -0.018));
+	torso->firstParent()->translate(glm::vec3(0, 1, 0));
+	head->firstParent()->translate(glm::vec3(0, 1.4, -0.018));
 	handR->firstParent()->translate(glm::vec3(-0.403, 1.6, 0.8));
 	handL->firstParent()->translate(glm::vec3(0.403, 1.6, 0.8));
 	handL->meshTransform->scale(glm::vec3(-1, 1, 1));
@@ -97,9 +97,10 @@ void MY_MakeupArtist::update(Step * _step){
 		handR->childTransform->translate((glm::vec3(-0.5f, 0, -0.5f) - handR->childTransform->getTranslationVector()) * 0.05f);
 		handL->childTransform->translate((glm::vec3(0.5f, 0, -0.5f) - handL->childTransform->getTranslationVector()) * 0.05f);
 	}else{
-		float r = glm::sin(_step->time*2.5f)*0.1f;
-		handR->childTransform->translate(glm::vec3(glm::cos(_step->time * 5)*0.25, glm::sin(_step->time * 5)*0.25, r), false);
-		handL->childTransform->translate(glm::vec3(glm::sin(-_step->time * 5)*0.25, glm::cos(-_step->time * 5)*0.25, -r), false);
+		float r1 = glm::sin(_step->time*2.5f)*0.2f + 0.3f;
+		float r2 = glm::cos(_step->time*2.5f)*0.2f + 0.3f;
+		handR->childTransform->translate(glm::vec3(glm::cos(_step->time * 5)*0.25, glm::sin(_step->time * 5)*0.25 - 0.5, r1), false);
+		handL->childTransform->translate(glm::vec3(glm::sin(-_step->time * 5)*0.25, glm::cos(-_step->time * 5)*0.25 - 0.5, r2), false);
 	}
 
 
@@ -143,6 +144,10 @@ void MY_MakeupArtist::update(Step * _step){
 
 		if(!paused){
 			currentPointIdx++;
+		}
+	}else{
+		if(currentPointIdx == points.size()){
+			currentPointIdx = 0;
 		}
 	}
 	Entity::update(_step);

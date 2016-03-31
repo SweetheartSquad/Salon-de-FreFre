@@ -119,6 +119,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	cameras.push_back(vrCam);
 	vrCam->yaw = -90;
 	vrCam->nearClip = 0.001f;
+	vrCam->fieldOfView = 110;
 
 	avatar = new MY_Avatar(baseShader, vrCam);
 	childTransform->addChild(avatar);
@@ -165,7 +166,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	// setup the artist
 	artist = new MY_MakeupArtist(baseShader, points);
-	childTransform->addChild(artist);
+	childTransform->addChild(artist);//->scale(0.9);
 
 	palette = new MY_Palette(bulletWorld, baseShader);
 	childTransform->addChild(palette);
@@ -203,6 +204,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	crossHair->setWidth(15);
 	crossHair->setHeight(15);
 	crossHair->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("crosshair")->texture);
+	crossHair->background->mesh->setScaleMode(GL_NEAREST);
 
 	crosshairLayout->addChild(crossHair);
 
@@ -215,7 +217,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorCamera = new PerspectiveCamera();
 	childTransform->addChild(mirrorCamera);
 	cameras.push_back(mirrorCamera);
-	mirrorCamera->firstParent()->translate(1, 4, 4, false);
+	mirrorCamera->firstParent()->translate(-0.5f, 3.25f, 4, false);
 
 	mirrorFBO = new StandardFrameBuffer(true);
 	mirrorTex = new FBOTexture(mirrorFBO, true, 0, false);
@@ -259,6 +261,12 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	});
 	fadeIn->start();
 	childTransform->addChild(fadeIn, false);
+
+
+	// recenter HMD
+	ovr_RecenterPose(*sweet::hmd);
+
+	startTime = glfwGetTime();
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -290,7 +298,8 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		activeCamera = mirrorCamera;
 		avatar->head->setVisible(true);
 		uiLayer->setVisible(false);
-		mirrorSurface->setVisible(true);
+		mirrorSurface->setVisible(false);
+		palette->setVisible(false);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 
 		activeCamera = c;
@@ -314,6 +323,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		avatar->head->setVisible(false);
 		uiLayer->setVisible(true);
 		mirrorSurface->setVisible(true);
+		palette->setVisible(true);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 		// unbind our screen framebuffer, rebinding the previously bound framebuffer
 		// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
@@ -327,7 +337,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 	});
 	// If an hmd is connected, we blit the stereo camera's buffers back to the screen after we're done rendering
 	if(sweet::ovrInitialized){
-		vrCam->blitTo(0);
+		//vrCam->blitTo(0);
 	}
 
 	//uiLayer->render(_matrixStack, _renderOptions);
@@ -359,7 +369,7 @@ void MY_Scene_Main::update(Step * _step){
 		// TODO
 
 		// if the audio stream has finished, switch to user input
-		if(currentTrack->source->state != AL_PLAYING){
+		if(currentTrack->source->state != AL_PLAYING && glfwGetTime() - startTime > 2.f){
 			if(tracks->tracks.at(currentTrackId).needsInput){
 				waitingForInput = true;
 			}else{
@@ -373,8 +383,11 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the orientation of the artist
 	float d = artist->head->childTransform->getWorldPos().y - artist->childTransform->getWorldPos().y;
-	artist->childTransform->lookAt(activeCamera->childTransform->getWorldPos() + glm::vec3(0,0.1f,0) - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.05f);
+	artist->childTransform->lookAt(activeCamera->childTransform->getWorldPos() - glm::vec3(0, 3.25, 0), glm::vec3(0, 1, 0), 0.05f);
 	artist->paused = waitingForInput;
+	if(done){
+		artist->paused = true;
+	}
 
 	// update the physics bodies
 	bulletWorld->update(_step);
@@ -388,7 +401,7 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the mirror
 	// (it's important to do this after the scene update, because we're overriding attributes which the camera typically handles on its own)
-	mirrorCamera->forwardVectorRotated = glm::reflect(glm::normalize(activeCamera->forwardVectorRotated * glm::vec3(1,0,1)), glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
+	mirrorCamera->forwardVectorRotated = glm::vec3(0,0, -1);//glm::reflect(glm::normalize(activeCamera->forwardVectorRotated * glm::vec3(1,0,1)), glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
 	mirrorCamera->lookAtSpot = mirrorCamera->lookFromSpot + mirrorCamera->forwardVectorRotated;
 
 	mirrorBlur->blurAmount += ((float)currentTrackId / tracks->tracks.size() - mirrorBlur->blurAmount) * 0.01f;
@@ -408,15 +421,12 @@ void MY_Scene_Main::makeSelection(){
 
 	// update the avatar mesh piece with the id "data" to the texture "data"+"target"
 	avatar->meshPieces[tracks->tracks.at(currentTrackId).data]->replaceTextures(MY_ResourceManager::globalAssets->getTexture(currentHoverTarget->name)->texture);
+
+	// special case for eyeliner (we need to unhide the lashes and liner meshes)
 	if (tracks->tracks.at(currentTrackId).data == "eyeliner"){
 		avatar->lashes->setVisible(true);
 		avatar->liner->setVisible(true);
 	}
-
-	sweet::Event * e = new sweet::Event("selectionMade");
-	e->setStringData("selection", currentHoverTarget->name); // the selection
-	e->setStringData("type", palette->name); // sounds/generic animations for types of makeup? I don't know, powder?
-	eventManager->triggerEvent(e);
 
 	loadNextPalette();
 }
@@ -424,7 +434,7 @@ void MY_Scene_Main::makeSelection(){
 
 void MY_Scene_Main::getNextTrack(){
 	
-	if(currentTrackId < 10){
+	if(currentTrackId < 5){
 		// stop the old track and remove it from the scene
 		if(currentTrack != nullptr){
 			currentTrack->stop();
@@ -445,7 +455,6 @@ void MY_Scene_Main::getNextTrack(){
 	}else if(!done){
 		done = true;
 	}
-	artist->paused = true;
 }
 
 

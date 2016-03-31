@@ -295,7 +295,8 @@
   	{
 		"id": "crosshair",
   		"type": "texture",
-  		"src": "crosshair.png"
+  		"src": "crosshair.png",
+      "generateMipmaps": false
   	},
   	{
 		"id": "indicator",
@@ -308,18 +309,26 @@
       "src": "direction.png"
     },
   	// AUDIO TRACKS
-  	{
-  		"id": "track1",
-  		"type": "audio",
-  		"src": "01 - hello - a.wav",
-  		"positional": true,
-  		"stream": true,
-  		"category": "voice"
-  	},
+    {
+      "id": "track0",
+      "type": "audio",
+      "src": "00-silence.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
+    {
+      "id": "track1",
+      "type": "audio",
+      "src": "01-blush.wav",
+      "positional": true,
+      "stream": true,
+      "category": "voice"
+    },
     {
       "id": "track2",
       "type": "audio",
-      "src": "02 - we've got everything here - a.wav",
+      "src": "02-eyeshadow.wav",
       "positional": true,
       "stream": true,
       "category": "voice"
@@ -327,7 +336,7 @@
     {
       "id": "track3",
       "type": "audio",
-      "src": "03 - let's moisturize your skin - a.wav",
+      "src": "03-eyeliner.wav",
       "positional": true,
       "stream": true,
       "category": "voice"
@@ -335,7 +344,7 @@
     {
       "id": "track4",
       "type": "audio",
-      "src": "04 - foundation - a.wav",
+      "src": "04-lipstick.wav",
       "positional": true,
       "stream": true,
       "category": "voice"
@@ -343,55 +352,7 @@
     {
       "id": "track5",
       "type": "audio",
-      "src": "05 - let me set - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track6",
-      "type": "audio",
-      "src": "06 - blush - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track7",
-      "type": "audio",
-      "src": "07 - beautiful eyes - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track8",
-      "type": "audio",
-      "src": "08 - eyeliner - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track9",
-      "type": "audio",
-      "src": "09 - mascara - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track10",
-      "type": "audio",
-      "src": "10 - lipstick - a.wav",
-      "positional": true,
-      "stream": true,
-      "category": "voice"
-    },
-    {
-      "id": "track11",
-      "type": "audio",
-      "src": "11 - mirror - a.wav",
+      "src": "05-outro.wav",
       "positional": true,
       "stream": true,
       "category": "voice"

@@ -51,6 +51,7 @@ MY_Avatar::MY_Avatar(Shader * _shader, Camera * _playerCam) :
 
 	lashes->setVisible(false);
 	liner->setVisible(false);
+	head->firstParent()->scale(-1,1,1);
 }
 
 MY_Avatar::~MY_Avatar(){
@@ -58,7 +59,7 @@ MY_Avatar::~MY_Avatar(){
 }
 
 void MY_Avatar::update(Step * _step){
-	head->childTransform->setOrientation(playerCam->childTransform->getOrientationQuat() * glm::angleAxis(180.f, glm::vec3(0, 1, 0)));
+	head->childTransform->setOrientation(playerCam->childTransform->getOrientationQuat());
 
 	Entity::update(_step);
 }

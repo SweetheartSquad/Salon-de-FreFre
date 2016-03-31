@@ -15,6 +15,10 @@
 		{
 			"name": "lipstick",
 			"texture": "lipstick"
+		},
+		{
+			"name": "none",
+			"texture": "lipstick"
 		}
 	]
 }
