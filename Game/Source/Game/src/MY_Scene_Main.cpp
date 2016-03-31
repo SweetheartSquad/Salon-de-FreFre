@@ -260,7 +260,7 @@ MY_Scene_Main::~MY_Scene_Main(){
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
-	_renderOptions->setClearColour(0.8, 0.2, 1, 1);
+	_renderOptions->setClearColour(0.2, 0.8, 1, 1);
 	// render the mirror texture
 	{
 		_renderOptions->setViewPort(0, 0, 1024, 1024);
