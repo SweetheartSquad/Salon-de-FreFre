@@ -168,7 +168,8 @@
   	{
   		"id": "chair",
   		"type": "texture",
-  		"src": "chair.png"
+  		"src": "chair.png",
+      "generateMipmaps": false
   	},
 
     // AVATAR
@@ -197,9 +198,19 @@
 
     // PLACE
     {
-      "id": "salon",
+      "id": "salon-environment",
       "type": "mesh",
-      "src": "VR_Environment.obj"
+      "src": "salon/environment.obj"
+    },
+    {
+      "id": "salon-props",
+      "type": "mesh",
+      "src": "salon/props.obj"
+    },
+    {
+      "id": "salon-mirror",
+      "type": "mesh",
+      "src": "salon/mirror.obj"
     },
     {
       "id": "salon-floor",

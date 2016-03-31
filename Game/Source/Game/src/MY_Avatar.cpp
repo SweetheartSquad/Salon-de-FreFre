@@ -21,20 +21,21 @@ MY_Avatar::MY_Avatar(Shader * _shader, Camera * _playerCam) :
 	lips = new MeshEntity(meshes.at(6), _shader);
 
 	hat->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("fabric")->texture); 
-	base->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
+	base->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("mascara")->texture);
 	head->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	lashes->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("mascara")->texture);
 	liner->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	eyes->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	cheeks->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
 	lips->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("original")->texture);
-
+	
+	base->mesh->setScaleMode(GL_NEAREST);
 	lashes->mesh->setScaleMode(GL_NEAREST);
 	liner->mesh->setScaleMode(GL_NEAREST);
 
 	childTransform->addChild(base);
 
-	base->childTransform->addChild(head)->translate(0, 3, -0.3);
+	base->childTransform->addChild(head)->translate(0, 3, 0.01);
 	
 	head->childTransform->addChild(hat);
 	head->childTransform->addChild(cheeks);

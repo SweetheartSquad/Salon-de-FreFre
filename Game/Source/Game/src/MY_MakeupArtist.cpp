@@ -139,7 +139,7 @@ void MY_MakeupArtist::update(Step * _step){
 			cos(glm::radians(angle)) * radius
 		);
 		
-		firstParent()->translate(glm::vec3(target.x, 0, target.y), false);
+		childTransform->translate(glm::vec3(target.x, 0, target.y), false);
 
 		if(!paused){
 			currentPointIdx++;

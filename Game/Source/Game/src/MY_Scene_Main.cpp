@@ -67,28 +67,48 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	MeshInterface * chairMesh = MY_ResourceManager::globalAssets->getMesh("chair")->meshes.at(0);
 	chairMesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("chair")->texture);
+	chairMesh->setScaleMode(GL_NEAREST);
 
-	for(signed long int i = -1; i < 3; ++i){
+	for(signed long int i = -1; i <= 1; ++i){
 		MeshEntity * chair = new MeshEntity(chairMesh, baseShader);
 		childTransform->addChild(chair)->translate(glm::vec3(i * 3, 0, 0));
 	}
 	
+	
+	std::vector<TriMesh *> environmentMeshes = MY_ResourceManager::globalAssets->getMesh("salon-environment")->meshes;
+	std::vector<TriMesh *> propMeshes = MY_ResourceManager::globalAssets->getMesh("salon-props")->meshes;
+	std::vector<std::string> environmentMeshOrder;
+	environmentMeshOrder.push_back("floor");
+	environmentMeshOrder.push_back("walls");
+	environmentMeshOrder.push_back("ceiling");
+	environmentMeshOrder.push_back("storefront");
+	environmentMeshOrder.push_back("door");
+	environmentMeshOrder.push_back("windows");
+	environmentMeshOrder.push_back("road");
+	environmentMeshOrder.push_back("buildings");
+	environmentMeshOrder.push_back("sidewalk");
 
-	std::vector<TriMesh *> salonMeshes = MY_ResourceManager::globalAssets->getMesh("salon")->meshes;
-	std::vector<std::string> meshOrder;
-	meshOrder.push_back("floor");
-	meshOrder.push_back("walls");
-	meshOrder.push_back("ceiling");
-	meshOrder.push_back("storefront");
-	meshOrder.push_back("door");
-	meshOrder.push_back("windows");
-	meshOrder.push_back("road");
-	meshOrder.push_back("buildings");
-	meshOrder.push_back("sidewalk");
-
-	for(unsigned long int i = 0; i < salonMeshes.size(); ++i){
-		MeshEntity * c = new MeshEntity(salonMeshes.at(i), baseShader);
-		c->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("salon-" + meshOrder.at(i))->texture);
+	std::vector<glm::vec3> propMeshOrder;
+	propMeshOrder.push_back(glm::vec3(1, 0.96, 0));
+	propMeshOrder.push_back(glm::vec3(0.8, 0.45, 0.45));
+	propMeshOrder.push_back(glm::vec3(0.5, 0.05, 0.2));
+	propMeshOrder.push_back(glm::vec3(1,1,1));
+	propMeshOrder.push_back(glm::vec3(0.02, 0.6, 0));
+	propMeshOrder.push_back(glm::vec3(0.4, 0.9, 0.9));
+	
+	for(unsigned long int i = 0; i < environmentMeshes.size(); ++i){
+		MeshEntity * c = new MeshEntity(environmentMeshes.at(i), baseShader);
+		c->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("salon-" + environmentMeshOrder.at(i))->texture);
+		c->mesh->setScaleMode(GL_NEAREST);
+		childTransform->addChild(c, false);
+	}
+	for(unsigned long int i = 0; i < propMeshes.size(); ++i){
+		MeshEntity * c = new MeshEntity(propMeshes.at(i), baseShader);
+		for(auto & v : c->mesh->vertices){
+			v.red = propMeshOrder.at(i).r;
+			v.green = propMeshOrder.at(i).g;
+			v.blue = propMeshOrder.at(i).b;
+		}
 		c->mesh->setScaleMode(GL_NEAREST);
 		childTransform->addChild(c, false);
 	}
@@ -167,11 +187,6 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		}
 	}
 
-
-	// add a cubemap (cubemaps use a special texture type and shader component. these can be instantiated separately if desired, but the CubeMap class handles them both for us)
-	CubeMap * cubemap = new CubeMap("assets/textures/cubemap", "png");
-	childTransform->addChild(cubemap);
-
 	Sprite * sprite = new Sprite(MY_ResourceManager::globalAssets->getTexture("indicator")->texture, indicatorShader);
 
 	auto sd = sweet::getWindowDimensions();
@@ -199,16 +214,16 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	mirrorCamera = new PerspectiveCamera();
 	childTransform->addChild(mirrorCamera);
 	cameras.push_back(mirrorCamera);
-	mirrorCamera->firstParent()->translate(0, 5, 2.5, false);
+	mirrorCamera->firstParent()->translate(1, 4, 4, false);
 
 	mirrorFBO = new StandardFrameBuffer(true);
 	mirrorTex = new FBOTexture(mirrorFBO, true, 0, false);
 	mirrorTex->load();
-	mirrorSurface = new MeshEntity(MeshFactory::getPlaneMesh(), mirrorShader);
+	mirrorSurface = new MeshEntity(MY_ResourceManager::globalAssets->getMesh("salon-mirror")->meshes.at(0), mirrorShader);
 	mirrorSurface->mesh->setScaleMode(GL_LINEAR);
 	mirrorSurface->mesh->uvEdgeMode = GL_CLAMP_TO_EDGE;
 	mirrorSurface->mesh->pushTexture2D(mirrorTex);
-	childTransform->addChild(mirrorSurface)->translate(0, 5, 5, false)->scale(glm::vec3(16,-9,1));
+	childTransform->addChild(mirrorSurface);
 	mirrorFBO->incrementReferenceCount();
 
 
@@ -245,9 +260,10 @@ MY_Scene_Main::~MY_Scene_Main(){
 }
 
 void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
+	_renderOptions->setClearColour(0.8, 0.2, 1, 1);
 	// render the mirror texture
 	{
-		_renderOptions->setViewPort(0, 0, 1600, 900);
+		_renderOptions->setViewPort(0, 0, 512, 512);
 		mirrorFBO->resize(_renderOptions->viewPortDimensions.width, _renderOptions->viewPortDimensions.height);
 		FrameBufferInterface::pushFbo(mirrorFBO);
 		Camera * c = activeCamera;
@@ -255,6 +271,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		activeCamera = mirrorCamera;
 		avatar->head->setVisible(true);
 		uiLayer->setVisible(false);
+		mirrorSurface->setVisible(true);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 
 		activeCamera = c;
@@ -277,6 +294,7 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 		// render the scene
 		avatar->head->setVisible(false);
 		uiLayer->setVisible(true);
+		mirrorSurface->setVisible(true);
 		MY_Scene_Base::render(_matrixStack, _renderOptions);
 		// unbind our screen framebuffer, rebinding the previously bound framebuffer
 		// since we didn't have one bound before, this will be the default framebuffer (i.e. the one visible to the player)
@@ -336,7 +354,7 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the orientation of the artist
 	float d = artist->head->childTransform->getWorldPos().y - artist->childTransform->getWorldPos().y;
-	artist->childTransform->lookAt(avatar->head->childTransform->getWorldPos() + glm::vec3(0,0.35f,0) - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.1f);
+	artist->childTransform->lookAt(activeCamera->childTransform->getWorldPos() + glm::vec3(0,0.1f,0) - glm::vec3(0, d, 0), glm::vec3(0, 1, 0), 0.05f);
 	artist->paused = waitingForInput;
 
 	// update the physics bodies
@@ -351,8 +369,10 @@ void MY_Scene_Main::update(Step * _step){
 
 	// update the mirror
 	// (it's important to do this after the scene update, because we're overriding attributes which the camera typically handles on its own)
-	mirrorCamera->forwardVectorRotated = glm::reflect(activeCamera->forwardVectorRotated, glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
+	mirrorCamera->forwardVectorRotated = glm::reflect(glm::normalize(activeCamera->forwardVectorRotated * glm::vec3(1,0,1)), glm::normalize(mirrorCamera->childTransform->getWorldPos() - activeCamera->childTransform->getWorldPos()));
 	mirrorCamera->lookAtSpot = mirrorCamera->lookFromSpot + mirrorCamera->forwardVectorRotated;
+
+	mirrorBlur->blurAmount += ((float)currentTrackId / tracks->tracks.size() - mirrorBlur->blurAmount) * 0.01f;
 }
 
 void MY_Scene_Main::loadNextPalette(){
@@ -393,7 +413,6 @@ void MY_Scene_Main::getNextTrack(){
 		}
 
 		++currentTrackId;
-		mirrorBlur->blurAmount = (float)currentTrackId / tracks->tracks.size();
 		currentTrack = MY_ResourceManager::globalAssets->getAudio(tracks->tracks.at(currentTrackId).audioTrack)->sound;
 	
 		// add the new track to the scene and play it
